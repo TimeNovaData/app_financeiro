@@ -1,4 +1,4 @@
-from .caixas_e_bancos_form import CaixaBancoForm
+from .caixa_banco_form import CaixaBancoForm
 from .conta_nivel1_form import ContaNivel1Form
 from .conta_nivel2_form import ContaNivel2Form
 from .conta_nivel3_form import ContaNivel3Form
@@ -8,13 +8,10 @@ from .filtro_fluxo_caixa_form import FiltroFluxoCaixaForm
 from .filtro_lancamento_financeiro_form import FiltroLancamentoFinanceiroForm
 from .filtro_parcela_form import FiltroParcelaForm
 from .filtro_saldo_termo_form import FiltroSaldoTermoForm
-from .item_rateio_form import ItemRateioForm
-from .item_rateio_inlineformset import ItemRateioInlineFormSet
 from .lancamento_financeiro_form import LancamentoFinanceiroForm
 from .pagar_parcela_form import PagarParcelaForm
 from .parcela_form import ParcelaForm
 from .parcela_inlineformset import ParcelaInlineFormSet
-from .rateio_form import RateioForm
 from .tipo_documento_financeiro_form import TipoDocumentoFinanceiroForm
 
 __all__ = [
@@ -35,10 +32,6 @@ __all__ = [
     PagarParcelaForm,
     ParcelaForm,
     ParcelaInlineFormSet,
-    #
-    RateioForm,
-    ItemRateioForm,
-    ItemRateioInlineFormSet,
     #
     TipoDocumentoFinanceiroForm,
 ]

@@ -1,5 +1,4 @@
 from django import forms
-
 from global_functions.utils.forms import (
     prepare_form_fields,
     prepare_form_initial,
