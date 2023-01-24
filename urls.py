@@ -94,11 +94,6 @@ conta_nivel1_patterns = [
         views.ContaNivel1Update.as_view(),
         name="conta_nivel1_update",
     ),
-    path(
-        "conta-nivel1-columns/",
-        views.conta_nivel1_columns,
-        name="conta_nivel1_columns",
-    ),
 ]
 
 conta_nivel2_patterns = [
@@ -122,11 +117,6 @@ conta_nivel2_patterns = [
         views.ContaNivel2Update.as_view(),
         name="conta_nivel2_update",
     ),
-    path(
-        "conta-nivel2-columns/",
-        views.conta_nivel2_columns,
-        name="conta_nivel2_columns",
-    ),
 ]
 
 conta_nivel3_patterns = [
@@ -149,11 +139,6 @@ conta_nivel3_patterns = [
         "conta-nivel3-update/<int:pk>/",
         views.ContaNivel3Update.as_view(),
         name="conta_nivel3_update",
-    ),
-    path(
-        "conta-nivel3-columns/",
-        views.conta_nivel3_columns,
-        name="conta_nivel3_columns",
     ),
 ]
 
@@ -205,11 +190,6 @@ caixas_e_bancos_patterns = [
         "caixas-e-bancos-delete/<int:pk>/",
         views.CaixaBancoDelete.as_view(),
         name="caixas_e_bancos_delete",
-    ),
-    path(
-        "caixas-e-bancos-columns/",
-        views.caixa_banco_columns,
-        name="caixas_e_bancos_columns",
     ),
 ]
 
@@ -279,11 +259,6 @@ tipo_documento_financeiro_patterns = [
         "tipo-documento-financeiro-update/<int:pk>/",
         views.TipoDocumentoFinanceiroUpdateView.as_view(),
         name="tipo_documento_financeiro_update",
-    ),
-    path(
-        "tipo-documento-financeiro-columns/",
-        views.tipo_documento_financeiro_columns,
-        name="tipo_documento_financeiro_columns",
     ),
 ]
 
