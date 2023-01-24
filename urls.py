@@ -1,6 +1,7 @@
 from django.urls import include, path
-from financeiro import views, viewsets
 from rest_framework import routers
+
+from financeiro import views, viewsets
 
 financeiro_router = routers.DefaultRouter()
 financeiro_router.register(
@@ -55,21 +56,9 @@ financeiro_router.register(
 )
 
 financeiro_router.register(
-    "item_rateio",
-    viewsets.ItemRateioViewSet,
-    basename="item_rateio",
-)
-
-financeiro_router.register(
     "parcela",
     viewsets.ParcelaViewSet,
     basename="parcela",
-)
-
-financeiro_router.register(
-    "rateio",
-    viewsets.RateioViewSet,
-    basename="rateio",
 )
 
 financeiro_router.register(
@@ -83,24 +72,6 @@ financeiro_router.register(
     viewsets.BancoViewSet,
     basename="banco",
 )
-
-fornecedor_patterns = [
-    path(
-        "get-fornecedor-json/",
-        views.get_fornecedor_json,
-        name="get_fornecedor_json",
-    ),
-    path(
-        "fornecedor-create-json/",
-        views.fornecedor_create_json,
-        name="fornecedor_create_json",
-    ),
-    path(
-        "get-id-fornecedor-json-json/",
-        views.get_id_fornecedor_json,
-        name="get_id_fornecedor_json",
-    ),
-]
 
 conta_nivel1_patterns = [
     path(
@@ -187,11 +158,6 @@ conta_nivel3_patterns = [
 ]
 
 conta_nivel4_patterns = [
-    path(
-        "importador-conta-gerencial/",
-        views.importador_conta_gerencial,
-        name="importador_conta_gerencial",
-    ),
     path(
         "conta-nivel4/",
         views.ContaNivel4ListView.as_view(),
@@ -293,34 +259,6 @@ parcela_patterns = [
     ),
 ]
 
-rateio_patterns = [
-    # path(
-    #     "rateio-create/",
-    #     views.RateioCreateView.as_view(),
-    #     name="rateio_create",
-    # ),
-    path(
-        "rateio-delete/<int:pk>/",
-        views.RateioDeleteView.as_view(),
-        name="rateio_delete",
-    ),
-    path(
-        "rateio-list/",
-        views.RateioListView.as_view(),
-        name="rateio_list",
-    ),
-    path(
-        "rateio-detail/<int:pk>/",
-        views.RateioDetailView.as_view(),
-        name="rateio_detail",
-    ),
-    # path(
-    #     "rateio-update/<int:pk>/",
-    #     views.RateioUpdateView.as_view(),
-    #     name="rateio_update",
-    # ),
-]
-
 tipo_documento_financeiro_patterns = [
     path(
         "tipo-documento-financeiro-create/",
@@ -354,32 +292,11 @@ urlpatterns = (
     [
         path("api/", include(financeiro_router.urls)),
         path(
-            "caixas-e-bancos/",
-            views.CaixaBancoListView.as_view(),
-            name="caixas_e_bancos",
-        ),
-        path(
             "fluxo-caixa/",
             views.FluxoCaixaView.as_view(),
             name="fluxo_caixa",
         ),
-        path(
-            "investimento-cooperativa/",
-            views.InvestimentoCooperativaListView.as_view(),
-            name="investimento_cooperativa",
-        ),
-        path(
-            "",
-            views.resumo_financeiro,
-            name="resumo_financeiro",
-        ),
-        path(
-            "saldo-termo/",
-            views.SaldoTermoView.as_view(),
-            name="saldo_termo",
-        ),
     ]
-    + fornecedor_patterns
     + conta_nivel1_patterns
     + conta_nivel2_patterns
     + conta_nivel3_patterns
@@ -387,6 +304,5 @@ urlpatterns = (
     + caixas_e_bancos_patterns
     + lancamento_financeiro_patterns
     + parcela_patterns
-    + rateio_patterns
     + tipo_documento_financeiro_patterns
 )

@@ -7,9 +7,7 @@ from .conta_nivel4_viewset import ContaNivel4ViewSet
 from .dado_bancario_viewset import DadoBancarioViewSet
 from .forma_pagamento_viewset import FormaPagamentoViewSet
 from .lancamento_financeiro_viewset import LancamentoFinanceiroViewSet
-from .item_rateio_viewset import ItemRateioViewSet
 from .parcela_viewset import ParcelaViewSet
-from .rateio_viewset import RateioViewSet
 from .tipo_conta_viewset import TipoContaViewSet
 from .tipo_documento_financeiro_viewset import TipoDocumentoFinanceiroViewSet
 
@@ -23,9 +21,7 @@ __all__ = [
 	ContaNivel4ViewSet,
 	DadoBancarioViewSet,
 	FormaPagamentoViewSet,
-	ItemRateioViewSet,
 	ParcelaViewSet,
-	RateioViewSet,
 	TipoContaViewSet,
 	BancoViewSet,
 ]
