@@ -11,19 +11,13 @@ from .conta_nivel4_admin import ContaNivel4Admin
 from .dado_bancario_admin import DadoBancarioAdmin
 from .dado_bancario_inline import DadoBancarioInline
 from .forma_pagamento_admin import FormaPagamentoAdmin
-from .item_rateio_admin import ItemRateioAdmin
-from .item_rateio_inline import ItemRateioInline
 from .lancamento_financeiro_admin import LancamentoFinanceiroAdmin
 from .lancamento_financeiro_inline import LancamentoFinanceiroInline
 from .log_alteracoes_lancamento_financeiro_inline import (
     LogAlteracoesLancamentoFinanceiroInline,
 )
-from .orcamento_admin import OrcamentoAdmin
 from .parcela_admin import ParcelaAdmin
 from .parcela_inline import ParcelaInline
-
-# from .periodo_admin import PeriodoAdmin
-from .rateio_admin import RateioAdmin
 from .tipo_conta_admin import TipoContaAdmin
 from .tipo_documento_financeiro_admin import TipoDocumentoFinanceiroAdmin
 
@@ -52,16 +46,9 @@ __all__ = [
     LancamentoFinanceiroInline,
     LogAlteracoesLancamentoFinanceiroInline,
     #
-    OrcamentoAdmin,
     #
     ParcelaAdmin,
     ParcelaInline,
-    #
-    # PeriodoAdmin,
-    #
-    RateioAdmin,
-    ItemRateioAdmin,
-    ItemRateioInline,
     #
     TipoContaAdmin,
     TipoDocumentoFinanceiroAdmin,

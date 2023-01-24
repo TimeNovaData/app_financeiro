@@ -7,7 +7,6 @@ from .conta_nivel3 import ContaNivel3
 from .conta_nivel4 import ContaNivel4
 from .dado_bancario import DadoBancario
 from .forma_pagamento import FormaPagamento
-from .item_rateio import ItemRateio
 from .lancamento_financeiro import LancamentoFinanceiro
 from .log_alteracoes_lancamento_financeiro import (
     LogAlteracoesLancamentoFinanceiro,
@@ -26,7 +25,6 @@ __all__ = [
     ContaNivel4,
     DadoBancario,
     FormaPagamento,
-    ItemRateio,
     LancamentoFinanceiro,
     LogAlteracoesLancamentoFinanceiro,
     Parcela,
