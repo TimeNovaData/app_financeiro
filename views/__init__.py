@@ -34,13 +34,6 @@ from .conta_nivel4 import (
     ContaNivel4Update,
 )
 from .fluxo_caixa import FluxoCaixaView
-from .fornecedor import (
-    fornecedor_create_json,
-    get_fornecedor_json,
-    get_id_fornecedor_json,
-)
-from .importador_conta_gerencial import importador_conta_gerencial
-from .investimento_cooperativa import InvestimentoCooperativaListView
 from .lancamento_financeiro import (
     LancamentoFinanceiroCreateView,
     LancamentoFinanceiroDeleteView,
@@ -54,15 +47,6 @@ from .parcela import (
     ParcelaListView,
     ParcelaUpdateView,
 )
-from .rateio import (
-    RateioCreateView,
-    RateioDeleteView,
-    RateioDetailView,
-    RateioListView,
-    RateioUpdateView,
-)
-from .resumo_financeiro import resumo_financeiro
-from .saldo_termo import SaldoTermoView
 from .tipo_documento_financeiro import (
     TipoDocumentoFinanceiroCreateView,
     TipoDocumentoFinanceiroDeleteView,
@@ -105,17 +89,10 @@ conta_nivel3_views = [
 ]
 
 conta_nivel4_views = [
-    importador_conta_gerencial,
     ContaNivel4Create,
     ContaNivel4Delete,
     ContaNivel4ListView,
     ContaNivel4Update,
-]
-
-fornecedor_views = [
-    fornecedor_create_json,
-    get_fornecedor_json,
-    get_id_fornecedor_json,
 ]
 
 lancamento_financeiro_views = [
@@ -133,14 +110,6 @@ parcela_views = [
     ParcelaUpdateView,
 ]
 
-rateio_views = [
-    RateioCreateView,
-    RateioDeleteView,
-    RateioDetailView,
-    RateioListView,
-    RateioUpdateView,
-]
-
 tipo_documento_financeiro_views = [
     tipo_documento_financeiro_columns,
     TipoDocumentoFinanceiroCreateView,
@@ -152,18 +121,13 @@ tipo_documento_financeiro_views = [
 __all__ = (
     [
         FluxoCaixaView,
-        InvestimentoCooperativaListView,
-        resumo_financeiro,
-        SaldoTermoView,
     ]
     + caixa_banco_views
     + conta_nivel1_views
     + conta_nivel2_views
     + conta_nivel3_views
     + conta_nivel4_views
-    + fornecedor_views
     + lancamento_financeiro_views
     + parcela_views
-    + rateio_views
     + tipo_documento_financeiro_views
 )
