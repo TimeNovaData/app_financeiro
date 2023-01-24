@@ -1,0 +1,447 @@
+{% extends 'base_listagem_unica.html' %}
+{% load humanize %}
+{% load widget_tweaks %}
+
+{% block extra_styles %}
+<style>
+	.modal_padrao[data-position="center"] {
+		min-height: auto;
+		height: -webkit-max-content !important;
+		height: max-content !important;
+
+		max-width: 37.5rem !important;
+		min-width: 100px !important;
+	}
+</style>
+{% endblock %}
+{% block title %}
+<div class="flex flex-col md2:gap-16">
+	<div class="flex flex-col justify-center md2:flex-wrap">
+		<h1 class="title text-neutral-100">
+			<svg class="h-24 w-24 text-primary-pure">
+				<use xlink:href="#icon_parcelas"></use>
+			</svg>
+			Parcelas
+		</h1>
+
+		{% comment %}
+		<a href="{% url 'parcela_create' %}?tipo={{tipo}}" class="btn h-48">
+			<svg class="w-16 h-16">
+				<use xlink:href="#icon_plus"></use>
+			</svg>
+			Nova parcela
+		</a>
+		{% endcomment %}
+
+	</div>
+	{% include 'financeiro/parcela/filtros.html' %}
+</div>
+{% endblock %}
+
+{% block table %}
+<button class="btn quartenary h-48 self-start mb-8 btn-pagar-parcelas disabled" data-id="modal-parcelas"
+	data-xopen="modal_padrao">
+	Pagar parcelas selecionadas
+</button>
+<div class="table-basic">
+	<table id="table_teste" js-table-ordenation>
+		<thead>
+			<tr>
+				<th data-reference="delete">
+					<p></p>
+				</th>
+				<th data-reference="id" js-add-filter="order, id">
+					<p>N° da parcela</p>
+				</th>
+
+				<th data-reference="lancamento_financeiro__id" js-add-filter="order, lancamento_financeiro__id">
+					<p>Lançamento</p>
+				</th>
+
+				<th data-reference="caixa_banco_real__nome" js-add-filter="order, caixa_banco_real__nome">
+					<p>Caixa/banco real</p>
+				</th>
+
+				<th data-reference="conta_gerencial__nome" js-add-filter="order, conta_gerencial__nome">
+					<p>Conta gerencial</p>
+				</th>
+
+				<th data-reference="lancamento_financeiro__tipo" js-add-filter="order, lancamento_financeiro__tipo">
+					<p>Tipo</p>
+				</th>
+
+				<th data-reference="data_referencia" js-add-filter="order, data_referencia">
+					<p>Data de referência</p>
+				</th>
+
+				<th data-reference="data_vencimento" js-add-filter="order, data_vencimento">
+					<p>Data de vencimento</p>
+				</th>
+
+				<th data-reference="paga_str" js-add-filter="order, paga_str">
+					<p>Paga</p>
+				</th>
+
+				<th data-reference="data_pagamento" js-add-filter="order, data_pagamento">
+					<p>Data de pagamento</p>
+				</th>
+
+				<th data-reference="valor" js-add-filter="order, valor">
+					<p>Valor</p>
+				</th>
+
+				<th data-reference="acrescimo" js-add-filter="order, acrescimo">
+					<p>Acréscimo</p>
+				</th>
+
+				<th data-reference="desconto" js-add-filter="order, desconto">
+					<p>Desconto</p>
+				</th>
+
+				<th data-reference="valor_efetivo" class="pointer-events-none">
+					<p>Valor efetivo</p>
+				</th>
+
+				<th class="pointer-events-none"></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for object in object_list %}
+			<tr>
+				<td data-reference="delete">
+					<div class="px-8 py-10 td-container ">
+						<div class="radio-container round  size-16">
+							<label class="check-label">
+								<input type="checkbox" name="pagar-parcela" class="sr-only" id="{{object.id}}">
+								<span class="radio-circle">
+									<i class="radio-circle-inner"></i>
+								</span>
+							</label>
+						</div>
+					</div>
+				</td>
+				<td data-reference="id">
+					<div class="px-8 py-10 td-container ">
+						<p>{{object.id}}</p>
+					</div>
+				</td>
+
+				<td data-reference="lancamento_financeiro__id">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.lancamento_financeiro.id|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="caixa_banco_real__nome">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.caixa_banco_real|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="conta_gerencial__nome">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.conta_gerencial|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="lancamento_financeiro__tipo">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.lancamento_financeiro.tipo|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="data_referencia">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.data_referencia|date:'d/m/Y'|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="data_vencimento">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.data_vencimento|date:'d/m/Y'|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="paga_str">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.paga_str}}</p>
+					</div>
+				</td>
+
+				<td data-reference="data_pagamento">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.data_pagamento|date:'d/m/Y'|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="valor">
+					<div class="px-8 py-10 td-container">
+						<p>R$ {{object.valor|default:"0,00"|intcomma}}</p>
+					</div>
+				</td>
+
+				<td data-reference="acrescimo">
+					<div class="px-8 py-10 td-container">
+						<p>R$ {{object.acrescimo|default:"0,00"|intcomma}}</p>
+					</div>
+				</td>
+
+				<td data-reference="desconto">
+					<div class="px-8 py-10 td-container">
+						<p>R$ {{object.desconto|default:"0,00"|intcomma}}</p>
+					</div>
+				</td>
+
+				<td data-reference="valor_efetivo">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.valor_efetivo|default:"0,00"|intcomma}}</p>
+					</div>
+				</td>
+
+				<td>
+					<div class="flex  items-center justify-end  ">
+						<div class="px-4 py-4 td-container">
+
+							<a href="{% url 'parcela_update' object.id %}" class="btn-action update">
+								<svg class="">
+									<use xlink:href="#icon_pen"></use>
+								</svg>
+								Alterar
+							</a>
+						</div>
+
+						<div class="px-4 py-4 td-container">
+
+							<button onclick="openModal(this)" data-id="modal_delete-{{forloop.counter}}"
+								data-xopen="modal_delete" class="btn-action delete">
+								<svg>
+									<use xlink:href="#icon_delete"></use>
+								</svg>
+								Remover
+							</button>
+						</div>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<div class="modal_delete" data-position="center">
+		{% for object in object_list %}
+		<section data-id="modal_delete-{{forloop.counter}}"
+			class="rounded justify-between flex flex-col h-full flex-1 modal--content">
+			<form method="post" action="{% url 'parcela_delete' object.id %}" onsubmit="clickSubmit()">
+				{% csrf_token %}
+				<div class="flex flex-col ">
+					<header class="flex items-center justify-between h-[.375rem] bg-primary-pure rounded-t"></header>
+
+					<div
+						class="w-[20rem] self-center font-semibold flex-col flex items-center justify-center gap-12 mt-32">
+						<p class="text-neutral-90 text-lg">Excluir parcela</p>
+						<p class="text-neutral-70 text-center">
+							Deseja mesmo excluir a parcela <span class="text-neutral-80">{{object.id}}</span>? Esta ação
+							é irreversível.
+						</p>
+					</div>
+				</div>
+
+				<div class="h-[.0625rem] w-full  bg-neutral-30 mt-32"></div>
+
+				<div class="flex items-center gap-16 justify-between px-24 my-12 w-full">
+					<button data-xclose="modal_delete" type="button" class="btn secondary h-48 flex-1">Cancelar</button>
+					<button data-xclose="modal_delete" type="submit" class="btn h-48 flex-1 ">Excluir</button>
+
+				</div>
+			</form>
+		</section>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
+
+
+{% block baixar_table %}
+{% include 'html_components/baixar_tabela.html' %}
+{% endblock %}
+
+{% block modal_padrao %}
+<!-- modal element -->
+<div class="modal--content  w-[37.5rem] md2:w-full" data-id="modal-parcelas">
+
+	<header class="flex items-center justify-between px-24 pb-16 pt-24 bg-primary-pure ">
+		<p class="text-lg text-white font-normal">Pagar parcelas</p>
+		<button data-xclose="modal_padrao"
+			class="rounded-full bg-primary-60 w-40 shrink-0 h-40 cursor-pointer transition-transform hover:scale-110 grid place-items-center">
+			<svg class="text-white w-16 h-16">
+				<use xlink:href="#icon_close"></use>
+			</svg>
+		</button>
+
+	</header>
+
+	<div class="h-[31.25rem] overflow-y-auto p-24 ">
+		<form id="pagar-parcelas" method="post" action="">
+			{% csrf_token %}
+			<div class=" grid grid-cols-2 gap-12 md2:grid-cols-1 md2:gap-16">
+				<div class="flex flex-col gap-4">
+					<label class="label ">Caixa/Banco real*</label>
+					<div class="select-container h-48">
+						{{pagar_parcela_form.caixa_banco_real|attr:'js-ativo'}}
+					</div>
+				</div>
+				<div class="flex flex-col gap-4">
+					<label class="label">Conta gerencial*</label>
+					<div class="select-container h-48">
+						{{pagar_parcela_form.conta_gerencial}}
+					</div>
+				</div>
+				<div class="flex flex-col gap-4">
+					<label class="label ">Data de pagamento*</label>
+					{{pagar_parcela_form.data_pagamento|attr:'js-ativo'|add_class:'h-48'}}
+				</div>
+				<div class="flex flex-col gap-4 col-span-full ">
+					<label class="label ">Observações</label>
+					{{pagar_parcela_form.observacoes|attr:'js-ativo'|add_class:'h-120'}}
+				</div>
+
+				<div class="hidden">
+					<input type="text" name="array-parcelas">
+				</div>
+
+			</div>
+			<div class="h-[.0625rem] w-full  bg-neutral-30 mt-24"></div>
+			<div class="flex w-full justify-center mt-16">
+				<p class="flex text-neutral-70 text-center self-center">
+					Deseja mesmo pagar as parcelas selecionadas?
+				</p>
+			</div>
+			<div class="flex gap-16 justify-end mt-24">
+				<button data-xclose="modal_padrao" type="button" class="btn secondary h-48">Cancelar</button>
+				<button type="button" onclick="submitPagamentoParcelas()" class="btn h-48">Pagar</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+	const modal_delete = ModalX('.modal_delete', {
+		deep: true,
+		zIndex: 1000000,
+		zIndexDeep: 900000,
+		bgModal: "white"
+	}).init()
+
+	function clickSubmit() {
+		// const btnSubmit = document.querySelector('.buttonSubmit')
+		// console.log(btnSubmit)
+		// btnSubmit.addEventListener('click',onsubmit)
+		window.location.reload()
+	}
+
+	function openModal(deleteButton) {
+		const dataId = deleteButton.getAttribute('data-id')
+		// console.log(dataId)
+	}
+	const wrapperBadge = document.querySelector('.wrapper-filters')
+	const wrapperFields = document.querySelector('.modal_filtros_small')
+
+	modalFiltrar(wrapperBadge, wrapperFields).init()
+	const modal_filtros_small = ModalX('.modal_filtros_small', {
+		deep: true,
+		zIndex: 1000000,
+		zIndexDeep: 900000,
+		bgModal: "white"
+	}).init()
+</script>
+
+<script>
+	function verificaInputs() {
+		const inputs = document.querySelectorAll('[name="pagar-parcela"]')
+		let isChecked = false
+		inputs.forEach(input => {
+			if (input.checked) {
+				isChecked = true
+			}
+		})
+		return isChecked
+	}
+
+	function addEventInput(arr) {
+		const inputs = document.querySelectorAll('[name="pagar-parcela"]')
+		const button = document.querySelector('.btn-pagar-parcelas')
+		const arrayParcelas = document.querySelector('[name="array-parcelas"]')
+		// console.log(arrayParcelas)
+		inputs.forEach(input => {
+			input.addEventListener('change', () => {
+				if (input.checked) {
+					arr.push(input.id)
+				} else {
+					arr = arr.filter(item => item !== input.id)
+				}
+				if (verificaInputs()) {
+					button.classList.remove('disabled')
+				} else {
+					button.classList.add('disabled')
+
+				}
+				arrayParcelas.value = arr
+			})
+		})
+	}
+
+
+	function submitPagamentoParcelas() {
+		const form = document.getElementById('pagar-parcelas')
+
+
+		const inputs = document.querySelectorAll('[name="pagar-parcela"]')
+		const selects = form.querySelectorAll('select')
+		const dataPagamento = form.querySelector('[name="data_pagamento"')
+
+		// console.log(selects)
+		function setAttrRequired() {
+			selects.forEach(i => {
+				// console.log(i)
+				if (i.required && i.getAttribute('js-no-choices') === null) {
+					i.setAttribute('data-required', true)
+					i.removeAttribute('required')
+				}
+
+			})
+		}
+
+		function isInvalidSelect() {
+			let isVazio = false
+			selects.forEach(select => {
+				// console.log(select, 'select')
+				if (select.getAttribute('data-required') && select.value == '') {
+					isVazio = true
+				}
+			})
+			return isVazio
+		}
+		setAttrRequired()
+		if (isInvalidSelect() || dataPagamento.value == '') {
+			GLOBAL.showToastify('Preencha todos os campos obrigatórios para pagar as parcelas')
+		} else {
+			form.submit()
+			modal_padrao.closeModal('modal-parcelas', '')
+		}
+
+
+
+
+
+	}
+
+	(function init() {
+		let arrayIDs = []
+		addEventInput(arrayIDs)
+
+	})()
+</script>
+{% endblock %}

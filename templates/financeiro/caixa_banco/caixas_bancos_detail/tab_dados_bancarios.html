@@ -1,0 +1,29 @@
+<div class="tab-collapse" data-tab="tab-2">
+	<div class="tab-container">
+		<div class="flex items-center justify-between gap-32 mb-32 md2:flex-wrap md2:gap-8">
+			<h1 class="title">Dados bancários</h1>
+			<a class="btn h-48" href="{% url 'caixas_e_bancos_update' object.id %}">
+				<svg class="w-20 h-20">
+					<use xlink:href="#icon_pen"></use>
+				</svg>
+				Atualizar dados
+			</a>
+		</div>
+        <div class="grid grid-cols-3 gap-16 md2:flex md2:flex-col md2:flex-wrap">
+            <div class="flex flex-col text-detail gap-1 ">
+                <label for="" class="label-detail">Banco</label>
+                {{object.dadobancario.banco|default:"-"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Conta</label>
+                {{object.dadobancario.conta|default:"-"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Agência</label>
+                {{object.dadobancario.agencia|default:"-"}}
+            </div>
+        </div>
+	</div>
+</div>

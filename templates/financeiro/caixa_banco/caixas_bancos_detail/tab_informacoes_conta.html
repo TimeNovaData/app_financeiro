@@ -1,0 +1,49 @@
+<div class="tab-collapse active" data-tab="tab-1">
+	<div class="tab-container">
+		<div class="flex items-center justify-between gap-32 mb-32 md2:flex-wrap md2:gap-8">
+			<h1 class="title">Informações da conta</h1>
+			<a class="btn h-48" href="{% url 'caixas_e_bancos_update' object.id %}">
+				<svg class="w-20 h-20">
+					<use xlink:href="#icon_pen"></use>
+				</svg>
+				Atualizar dados
+			</a>
+		</div>
+        <div class="grid grid-cols-4 gap-16 md2:flex md2:flex-col md2:flex-wrap">
+            <div class="flex flex-col text-detail gap-1 ">
+                <label for="" class="label-detail">Nome da conta</label>
+                {{object.nome}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Período de abertura</label>
+                {{object.periodo_abertura|default:"Não informado"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Período de encerramento</label>
+                {{object.periodo_encerramento|default:"Não informado"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Tipo de conta</label>
+                {{object.tipo_conta|default:"-"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Fluxo de caixa</label>
+                {{object.considerar_fluxo_caixa_str|default:"-"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Remessa de pagamentos</label>
+                {{object.gerar_remessa_pagamento_str|default:"-"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Aceita lançamentos</label>
+                {{object.aceita_lancamentos_str|default:"-"}}
+            </div>
+        </div>
+	</div>
+</div>

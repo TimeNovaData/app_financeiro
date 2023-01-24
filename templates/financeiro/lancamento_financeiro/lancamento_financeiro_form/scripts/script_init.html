@@ -1,0 +1,25 @@
+<script>
+    function preencheInputInitial() {
+        const wrapperParcela = form.querySelector(".wrapper-inline[data-js-inline='inline_parcela']")
+        const qtdInlinesInput = document.querySelector('.qtd-inlines')
+        const inlinesVisiveis = wrapperParcela.querySelectorAll(".inline-item:not(.hidden)");
+        const quantidade = inlinesVisiveis.length
+        if (quantidade && qtdInlinesInput) {
+            qtdInlinesInput.value = quantidade
+        }
+        
+    }
+
+    (function init() {
+        const wrapperParcela = form.querySelector(".wrapper-inline[data-js-inline='inline_parcela']")
+        preencheInputInitial()
+       // addEventInForm()
+        changeValorTotal()
+        preencheDataReferencia(wrapperParcela)
+        disabledParcelaPaga(wrapperParcela)
+        preencheParcelas(wrapperParcela)
+        observerInputsParcela()
+        eventSelects(wrapperParcela)
+        // changeEmpresa() // Não vamos usar por hora
+    })()
+</script>

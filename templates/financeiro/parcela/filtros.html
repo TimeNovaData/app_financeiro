@@ -1,0 +1,73 @@
+{% load widget_tweaks %}
+
+<div class="flex items-center self-end justify-between gap-8 md2:flex-col md2:gap-16 md2:justify-start md2:self-start">
+    <div class="flex justify-end gap-16 md2:flex-col ">
+        <button class="btn h-48 icon-left md2:w-full" type="button" data-xopen="modal_filtros_small"
+            data-id="modal_filtros_small" js-modal-filtrar>
+            <svg>
+                <use xlink:href="#icon_filtrar"></use>
+            </svg>
+            Filtrar
+        </button>
+
+        <button class="btn secondary h-48 hidden icon-left md2:w-full" js-limpar-filtro type="button">
+            <svg>
+                <use xlink:href="#icon_close"></use>
+            </svg>
+            Limpar Filtros
+        </button>
+    </div>
+</div>
+
+
+<div class="wrapper-filters  flex-col gap-8 md2:flex-wrap  hidden"></div>
+
+
+<div class="modal_filtros_small" data-position="center">
+    <section data-id="modal_filtros_small" class="rounded justify-between flex flex-col  modal--content">
+        <form class="form" enctype="multipart/form-data" action="" method="GET" id="form_filtro_parcela" name="filtro">
+            <header class="flex items-center justify-between px-24 pb-16 pt-24 bg-primary-pure rounded-t">
+                <p class="text-lg text-white font-normal">Filtros</p>
+
+                <button data-xclose="modal_filtros_small" type="button"
+                    class="rounded-full bg-primary-60 w-40 shrink-0 h-40 cursor-pointer transition-transform hover:scale-110 grid place-items-center">
+                    <svg class="text-white w-16 h-16">
+                        <use xlink:href="#icon_close"></use>
+                    </svg>
+                </button>
+            </header>
+            <div
+                class="p-24 rounded-sm grid grid-cols-2  gap-8 md2:grid-cols-1 !h-[15rem] overflow-y-auto overflow-x-hidden md2:max-h-[28.125rem]">
+                <div class="flex flex-col gap-4 col-span-full">
+                    <label for="{{filtro_parcela_form.tipo.id_for_label}}"
+                        class="label">{{filtro_parcela_form.tipo.label}}</label>
+                    {{filtro_parcela_form.tipo|add_class:"h-48"}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="{{filtro_parcela_form.data_inicial.id_for_label}}"
+                        class="label">{{filtro_parcela_form.data_inicial.label}}</label>
+                    {{filtro_parcela_form.data_inicial|add_class:"h-48"}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="{{filtro_parcela_form.data_final.id_for_label}}"
+                        class="label">{{filtro_parcela_form.data_final.label}}</label>
+                    {{filtro_parcela_form.data_final|add_class:"h-48"}}
+                </div>
+            </div>
+
+            <div class="flex gap-16 items-center justify-end p-24">
+                <button data-xclose="modal_filtros_small" type="button" class="btn secondary bg-transparent h-48">
+                    Cancelar
+                </button>
+
+                <button data-xclose="modal_filtros_small" type="submit" class="btn  h-48  btn-submit">
+                    Aplicar filtros
+                </button>
+            </div>
+        </form>
+    </section>
+</div>
+
+<script></script>

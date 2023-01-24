@@ -1,0 +1,90 @@
+{% extends 'base_listagem_unica.html' %}
+
+
+{% block title %}
+	<div class="flex justify-between md2:flex-wrap">
+		<h1 class="title text-neutral-100">
+			<svg class="h-24 w-24 text-primary-pure" >
+				<use xlink:href="#icon_caixa_banco"></use>
+			</svg> 
+			
+			Caixas e bancos
+		</h1>
+		<a href="{% url 'caixas_e_bancos_create' %}" class="btn h-48">
+			<svg class="w-16 h-16">
+				<use xlink:href="#icon_plus"></use>
+			</svg>
+			Novo caixa e banco
+		</a>
+	</div>	
+{% endblock %}
+
+
+{% block table %}
+	<div class="table-basic">
+		<table id="table_teste" js-table-ordenation>
+			<thead>
+				<tr>
+					<th data-reference="nome" js-add-filter="order, nome" >
+						<p>Nome da conta</p>
+					</th>
+
+					<th data-reference="tipo_conta__nome" js-add-filter="order, tipo_conta__nome">
+						<p>Tipo de conta</p>
+					</th>
+
+					<th data-reference="periodo_abertura__nome" js-add-filter="order, periodo_abertura__nome">
+						<p>Abertura</p>
+					</th>
+
+					<th data-reference="periodo_encerramento__nome" js-add-filter="order, periodo_encerramento__nome">
+						<p>Encerramento</p>
+					</th>
+
+					<th data-reference="considerar_fluxo_caixa" js-add-filter="order, considerar_fluxo_caixa">
+						<p>Fluxo de caixa</p>
+					</th>
+				</tr>
+			</thead>
+
+			<tbody>
+				{% for object in object_list %}
+					<tr>	
+						<td data-reference="nome" >
+							<div class="px-8 py-10 td-container ">
+								<a class="btn-table-hover" href="{% url 'caixas_e_bancos_detail' object.id %}">{{object.nome}}</a>
+							</div>
+						</td>
+
+						<td data-reference="tipo_conta__nome">
+							<div class="px-8 py-10 td-container">
+								<p>{{object.tipo_conta|default:"-"}}</p>
+							</div>
+						</td>
+
+						<td data-reference="periodo_abertura__nome">
+							<div class="px-8 py-10 td-container">
+								<span>{{object.periodo_abertura|default:"-"}}</span>
+							</div>
+						</td>
+						<td data-reference="periodo_encerramento__nome">
+							<div class="px-8 py-10 td-container">
+								<p >{{object.periodo_encerramento|default:"-"}}</p>
+							</div>
+						</td>
+						<td class="number" data-reference="considerar_fluxo_caixa">
+							<div  class="px-8 py-10 td-container">
+								<span>{{object.considerar_fluxo_caixa_str}}</span>
+							</div>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+{% endblock %}
+
+		
+{% block baixar_table %}
+	{% include 'html_components/baixar_tabela.html' %}
+{% endblock %}

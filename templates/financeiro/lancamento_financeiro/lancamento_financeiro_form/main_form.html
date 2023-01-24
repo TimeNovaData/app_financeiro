@@ -1,0 +1,204 @@
+{% load widget_tweaks %}
+{% load humanize %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/multi-select/0.9.12/css/multi-select.css" />
+
+<div>
+    <!-- Hidden fields -->
+    <div class="hidden">
+        {{form.tipo|add_class:'h-48'}}
+    </div>
+
+    <div class="grid grid-cols-4 gap-16 px-24 md2:grid-cols-1">
+        <div class="flex flex-col col-span-full">{{form.errors}}</div>
+        <div class="hidden">
+            {{form.compra}}
+            {{form.rateio}}
+        </div>
+
+        <label class="font-semibold label col-span-full">Dados da empresa e empresas</label>
+        <div class="flex flex-col gap-4 col-span-full">
+            <label class="label {% if object.compra %} disabled {% else %} '' {% endif %}">Empresa à pagar *</label>
+            <div class="select-container h-48 {% if object.compra %} disabled {% else %} '' {% endif %}">
+                {{form.empresa}}
+            </div>
+        </div>
+    </div>
+
+    <div class="h-2 my-24 w-full bg-neutral-30 border-none"></div>
+
+    <div class="grid grid-cols-2 gap-16 px-24  md2:grid-cols-1">
+        <label class="font-semibold label col-span-full">Informações de pagamento</label>
+        <div class="flex flex-col gap-4">
+            <label class="label">{{form.conta_gerencial.label}} *</label>
+            <div class="select-container h-48">
+            {{form.conta_gerencial}}
+            </div>
+        </div>
+
+        {% if tipo == 'Despesa' %}
+            <div class="grid grid-cols-2 gap-16 md2:grid-cols-1">
+                <div class="flex flex-col gap-4">
+                    <label class="label">Tipo de documento de conta à pagar</label>
+                    <div class="select-container h-48">
+                    {{form.tipo_documento}}
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <label class="label">{{form.numero_nota_fiscal.label}}</label>
+                    {{form.numero_nota_fiscal|add_class:'h-48'}}
+                </div>
+            </div>
+        {% else %}
+            <div class="flex flex-col gap-4 ">
+                <label class="label">Tipo de documento de conta à receber</label>
+                <div class="select-container h-48">
+                    {{form.tipo_documento}}
+                   </div>
+            </div>
+        {% endif %}
+
+        <div class="flex flex-col gap-4 ">
+            <label class="label">Conta/Caixa para pagamento *</label>
+           <div class="select-container h-48">
+            {{form.conta_caixa}}
+           </div>
+        </div>
+
+        <div class="flex flex-col gap-4 ">
+            <label for="{{form.destinacao.id_for_label}}" class="label">{{form.destinacao.label}}*</label>
+            <div class="select-container h-48">
+                {{form.destinacao}}
+            </div>
+        </div>
+
+        {% if object %}
+            <div class="flex flex-col gap-4 ">
+                <label class="label disabled">Tipo de pagamento *</label>
+                <div class="select-container h-48 disabled">
+                    {{form.forma_pagamento|add_class:'disabled'}}
+                </div>
+            </div>
+        {% else %}
+            <div class="flex flex-col gap-4 ">
+                <label class="label">Tipo de pagamento *</label>
+                <div class="select-container h-48 ">
+                    {{form.forma_pagamento}}
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="flex flex-col gap-4">
+            <label class="label">{{form.data_referencia.label}}</label>
+            {{form.data_referencia|add_class:'h-48'}}
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <label class="label">{{form.data_referencia_parcelas.label}}</label>
+            {{form.data_referencia_parcelas|add_class:'h-48'}}
+        </div>
+
+        <div class="flex flex-col gap-4 ">
+            <label class="label disabled">Previsão para o pagamento *</label>
+            <input type="text" class="input-text disabled h-48" disabled placeholder="Vencimento da última parcela"
+                value="{{object.data_vencimento|date:'d/m/Y'}}">
+        </div>
+
+        <div class="grid grid-cols-2 gap-16 md2:grid-cols-1">
+            {% if object %}
+            <div class="flex flex-col gap-4">
+                <label class="label disabled">{{form.valor_total.label}} *</label>
+                <div class="input-icon icon-left">
+
+                    {{form.valor_total|add_class:'h-48 disabled'}}
+
+
+                    <svg>
+                        <use xlink:href="#icon_dolar"></use>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex flex-col gap-4">
+                <label class="label disabled">{{form.impostos.label}}</label>
+                <div class="input-icon icon-left">
+                    {{form.impostos|add_class:'h-48 disabled'}}
+                    <svg>
+                        <use xlink:href="#icon_dolar"></use>
+                    </svg>
+                </div>
+            </div>
+            {% else %}
+            <div class="flex flex-col gap-4">
+                <label class="label">{{form.valor_total.label}} *</label>
+                <div class="input-icon icon-left">
+                    {{form.valor_total|add_class:'h-48'}}
+                    <svg>
+                        <use xlink:href="#icon_dolar"></use>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex flex-col gap-4">
+                <label class="label">{{form.impostos.label}}</label>
+                <div class="input-icon icon-left">
+                    {{form.impostos|add_class:'h-48'}}
+                    <svg>
+                        <use xlink:href="#icon_dolar"></use>
+                    </svg>
+                </div>
+            </div>
+            {% endif %}
+
+
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <label class="label disabled">Valor efetivo *</label>
+            <div class="input-icon icon-left">
+                <input type="text" class="input-text disabled h-48" disabled id="id_valor_efetivo"
+                    value="{{object.valor_efetivo|intcomma}}">
+                <svg>
+                    <use xlink:href="#icon_dolar"></use>
+                </svg>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <label class="label disabled">Valor já pago *</label>
+            <div class="input-icon icon-left">
+                <input type="text" class="input-text disabled h-48" id="id_valor_pago" disabled
+                    value="{{object.valor_pago|intcomma}}">
+                <svg>
+                    <use xlink:href="#icon_dolar"></use>
+                </svg>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-4">
+            <label class="label disabled">Valor pendente *</label>
+            <div class="input-icon icon-left">
+                <input id="id_valor_pendente" type="text" class="input-text disabled h-48" disabled
+                    value="{{object.valor_pendente|intcomma}}">
+                <svg>
+                    <use xlink:href="#icon_dolar"></use>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-24">
+        <div class="accordion inverse">
+            <div class="accordion-item" js-accordion js-accordion-gsap>
+                <div class="accordion-title icon-right px-24" data-accordion="3" js-comentario-parent="comentario-1">
+                    <svg>
+                        <use xlink:href="#seta_up"></use>
+                    </svg>
+                    {{form.anotacoes.label}}
+                </div>
+                <div class="accordion-content" data-accordion="3" js-comentario-parent="comentario-1">
+                    <div class="accordion-container ">
+                        {{form.anotacoes|attr:'js-ativo'|add_class:'w-full !h-120'}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

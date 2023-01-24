@@ -1,0 +1,115 @@
+{% extends 'base_listagem_unica.html' %}
+{% load humanize %}
+
+{% block title %}
+<div class="flex justify-between md2:flex-wrap">
+	<h1 class="title text-neutral-100">
+		<svg class="h-24 w-24 text-primary-pure">
+			<use xlink:href="#icon_investimento"></use>
+		</svg>
+		Investimentos por cooperativa
+	</h1>
+</div>
+{% endblock %}
+
+
+{% block table %}
+<div class="table-basic">
+	<table id="table_teste" js-table-ordenation>
+		<thead>
+			<tr>
+				<th data-reference="cnpj" js-add-filter="order, cnpj">
+					<p>N° da empresa</p>
+				</th>
+
+				<th data-reference="nome" js-add-filter="order, nome">
+					<p>Empresa</p>
+				</th>
+
+				<th data-reference="endereco__cidade" js-add-filter="order, endereco__cidade">
+					<p>Cidade</p>
+				</th>
+
+				<th data-reference="endereco__estado" js-add-filter="order, endereco__estado">
+					<p>Estado</p>
+				</th>
+
+				<th class="pointer-events-none">
+					<p>Valor total dos termos</p>
+				</th>
+
+				<th class="pointer-events-none">
+					<p>Valor total gasto</p>
+				</th>
+
+				<th class="pointer-events-none">
+					<p>Saldo total</p>
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for object in object_list %}
+				<tr>
+					<td data-reference="cnpj">
+						<div class="px-8 py-10 td-container ">
+							<a class="btn-table-hover" target="_blank"
+								href="{% url 'empresa_detail' object.pk %}">{{object.cnpj}}</a>
+						</div>
+					</td>
+
+					<td data-reference="nome">
+						<div class="px-8 py-10 td-container">
+							<p>{{object.nome}}</p>
+						</div>
+					</td>
+
+					<td data-reference="endereco__cidade">
+						<div class="px-8 py-10 td-container">
+							<span>{{object.endereco.cidade|default:"-"}}</span>
+						</div>
+					</td>
+
+					<td data-reference="endereco__estado">
+						<div class="px-8 py-10 td-container">
+							<p>{{object.endereco.estado|default:"-"}}</p>
+						</div>
+					</td>
+
+					<td class="number">
+						<div class="px-8 py-10 td-container cursor-pointer" onclick="termosEmpresa({{object.pk}})">
+							<span>R$ {{object.valor_total_termos|default:"0,00"|intcomma}}</span>
+						</div>
+					</td>
+
+					<td class="number">
+						<div class="px-8 py-10 td-container">
+							<span>R$ {{object.valor_total_gasto|default:"0,00"|intcomma}}</span>
+						</div>
+					</td>
+
+					<td class="number">
+						<div class="px-8 py-10 td-container">
+							<span>R$ {{object.valor_total_saldo|default:"0,00"|intcomma}}</span>
+						</div>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}
+
+
+{% block baixar_table %}
+{% include 'html_components/baixar_tabela.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+	function termosEmpresa(id){
+		console.log(id)
+		window.location.href = `${window.location.origin}/financeiro/saldo-termo/?empresa=${id}`
+	}
+</script>
+{% endblock %}

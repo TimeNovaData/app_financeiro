@@ -1,0 +1,271 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_styles_vendor %}
+<!--  -->
+{% endblock %}
+
+{% block extra_styles %}
+{% endblock %}
+
+{% block content %}
+
+<main class="container-content">
+
+	{% include 'top_buttons.html' %}
+	<div class="card mt-32 flex flex-col gap-32 mb-32 md2:mt-0">
+
+		<h1 class="title text-neutral-100 px-24 pt-24 ">
+			<svg class="h-24 w-24 text-primary-pure">
+				<use xlink:href="#icon_detail_fornecedor"></use>
+			</svg> Detalhe do Fornecedor teste
+		</h1>
+		<div class="tabs" js-tab>
+			<ul class="tabs-wrapper flex">
+				<li class="tab-item active" data-tab="tab-1">
+
+					Informações do fornecedor
+				</li>
+				<li class="tab-item" data-tab="tab-2">
+					Dados Bancários
+				</li>
+				<li class="tab-item " data-tab="tab-3">
+					Compras com o fornecedor
+
+				</li>
+
+			</ul>
+
+
+			<div class="tabs-content p-24">
+
+				<div class="tab-collapse active" data-tab="tab-1">
+					<div class="tab-container">
+						<div class="flex items-center justify-between md2:mb-32 md2:flex-wrap md2:gap-8">
+							<h1 class="title mb-32 md2:mb-8">Informações do fornecedor</h1>
+
+							<a href="{% url 'fornecedor_update' object.id %}?secao=informacoes_fornecedor"
+								class="btn h-48 icon-right md2:w-full">
+								<svg class="w-16 h-16">
+									<use xlink:href="#icon_pen"></use>
+								</svg>
+								Atualizar dados
+							</a>
+						</div>
+						<div class="grid grid-cols-3 md:flex md:flex-col md:flex-wrap gap-16">
+							<label class="label col-span-full mb-16 md2:mb-4">Informações gerais</label>
+							<div class="flex flex-col gap-2  text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Contato</label>
+								{{fornecedor.contato|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Telefone</label>
+								{{fornecedor.telefone|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">CNPJ</label>
+								{{fornecedor.cnpj|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Email</label>
+								{{fornecedor.email|default:'-'}}
+							</div>
+
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Razão social</label>
+								{{fornecedor.razao_social|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Nome fantasia</label>
+								{{fornecedor.nome_fantasia|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Inscrição Estadual</label>
+								{{fornecedor.inscricao_estadual|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Inscrição Municipal</label>
+								{{fornecedor.inscricao_municipal|default:'-'}}
+							</div>
+							<div class="h-[.0625rem] col-span-full mt-16 mb-24 bg-neutral-20"></div>
+
+						</div>
+						<div class="grid grid-cols-4 md:flex md:flex-col md:flex-wrap gap-16">
+							<label class="label mb-16 col-span-full">Endereço</label>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">CEP</label>
+								{{fornecedor.endereco.cep|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Bairro</label>
+								{{fornecedor.endereco.bairro|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Cidade</label>
+								{{fornecedor.endereco.cidade|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Estado</label>
+								{{fornecedor.endereco.estado|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Rua</label>
+								{{fornecedor.endereco.rua|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Ponto de referência</label>
+								{{fornecedor.endereco.referencia|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold col-span-2">
+								<label for="" class="label text-neutral-70">Número</label>
+								{{fornecedor.endereco.numero|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Latitude</label>
+								{{fornecedor.endereco.latitude|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Longitude</label>
+								{{fornecedor.endereco.longitude|default:'-'}}
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-collapse" data-tab="tab-2">
+					<div class="tab-container">
+						<div class="flex items-center justify-between md2:mb-32 md2:flex-wrap md2:gap-8">
+							<h1 class="title mb-32 md2:mb-8">Dados Bancários</h1>
+
+							<a href="{% url 'fornecedor_update' object.id %}?secao=dados_bancarios"
+								class="btn h-48 icon-right md2:w-full">
+								<svg class="w-16 h-16">
+									<use xlink:href="#icon_pen"></use>
+								</svg>
+								Atualizar dados
+							</a>
+						</div>
+						<div class="grid grid-cols-3 md:flex md:flex-col md:flex-wrap gap-16">
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Banco</label>
+								{{dados_bancarios.banco|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Agência</label>
+								{{dados_bancarios.agencia|default:'-'}}
+							</div>
+							<div class="flex flex-col gap-2 text-neutral-80 text-lg font-semibold">
+								<label for="" class="label text-neutral-70">Conta</label>
+								{{dados_bancarios.conta|default:'-'}}
+							</div>
+
+						</div>
+					</div>
+				</div>
+
+				<div class="tab-collapse" data-tab="tab-3">
+					<div class="tab-container">
+						<h3 class="title mb-32">Compras com o fornecedor</h3>
+
+						<table id="example" class="table-striped table nowrap" style="width:100%" js-dataTables>
+							<thead>
+								<tr>
+									<th>
+										<p class="p-4">N° do Processo</p>
+									</th>
+
+									<th>
+										<p class="p-4">Empresa</p>
+									</th>
+
+									<th>
+										<p class="p-4">Data de recebimento</p>
+									</th>
+
+									<th>
+										<p class="p-4">Grupo</p>
+									</th>
+
+									<th>
+										<p class="p-4">Status</p>
+									</th>
+
+									<th>
+										<p class="p-4">Relatório de entrega</p>
+									</th>
+
+									<th>
+										<p class="p-4">Detalhes</p>
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+
+								{% for object in itens_compra %}
+								<tr>
+									<td>
+										<p class="text-primary-pure font-semibold px-16 py-[.375rem]">
+											{{object.compra.id}}
+										</p>
+									</td>
+
+									<td>
+										<p>{{object.compra.empresa}}</p>
+									</td>
+
+									<td>
+										{{object.compra.data_recebimento|date:"d/m/Y"}}
+									</td>
+									<td>
+										<p>{{object.compra.subgrupo_pedido.grupo_pedido|default:'-'}}</p>
+									</td>
+									<td>
+										<span js-badge class="badge"
+											style="--color:{{object.compra.status.cor}};">{{object.compra.status|default:'-'}}</span>
+									</td>
+
+									<td>
+										{% comment %} <div>
+											<a href="{% url 'relatorio_entrega' object.compra.id %}"
+												class="btn-table-hover action  gap-[.375rem]">
+												<svg class="w-16 h-16">
+													<use xlink:href="#icon_file_checked"></use>
+												</svg>
+												{{object.compra.relatorio_entrega_link.name}}
+											</a>
+										</div> {% endcomment %}
+									</td>
+									<td>
+										<div>
+
+											<a href="{% url 'compra_detail' object.compra.id %}"
+												class="btn-table-hover action gap-[.375rem]">
+												<svg class="w-16 h-16">
+													<use xlink:href="#icon_visualizar"></use>
+												</svg>
+												Ver detalhes
+											</a>
+										</div>
+									</td>
+								</tr>
+								{% endfor %}
+
+							</tbody>
+
+						</table>
+
+
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+</main>
+{% endblock %}
+
+{% block extra_js_vendor %}
+<!-- -->
+
+{% endblock %}

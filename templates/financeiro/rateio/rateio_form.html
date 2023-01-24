@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extra_styles_vendor %}
+<!--  -->
+{% endblock %}
+
+{% block extra_styles %}
+<!--  -->
+{% endblock %}
+
+{% block content %}
+<main class="container-content">
+    {% include 'top_buttons.html' %}
+
+    <div class="card mt-32 mb-48 md2:mt-0 p-24">
+        <form action="" method="post" name="form_rateio" id="form_rateio">
+            {% csrf_token %}
+
+            <h1 class="title mb-16">
+                <svg class="w-24 h-24 text-primary-pure">
+                    <use xlink:href="#icon_doc"></use>
+                </svg>
+
+                {{title}}
+            </h1>
+
+            <div class="grid grid-cols-2 gap-16 md2:grid-cols-1 mb-12">
+                <div class="flex flex-col col-span-full">{{form.errors}}</div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.nome.label}} *</label>
+                    {{form.nome|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.valor.label}} *</label>
+                    <div class="input-icon icon-left">
+                        {{form.valor|add_class:'h-48'|attr:'js-ativo'}}
+                        <svg>
+                            <use xlink:href="#icon_dolar"></use>
+                        </svg>
+                    </div>
+                </div>
+
+                <span for="" class="label font-semibold col-span-full">Dados do financeiro</span>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.numero_parcelas.label}} *</label>
+                    {{form.numero_parcelas|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.tipo.label}} *</label>
+                    {{form.tipo|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.empresa.label}}</label>
+                    {{form.empresa|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.conta_gerencial.label}}</label>
+                    {{form.conta_gerencial|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.tipo_documento.label}}</label>
+                    {{form.tipo_documento|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.conta_caixa.label}}</label>
+                    {{form.conta_caixa|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.data_referencia.label}}</label>
+                    {{form.data_referencia|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+            </div>
+
+            <span for="" class="label font-semibold col-span-full">Itens de rateio</span>
+            {% include 'financeiro/rateio/item_rateio_wrapper.html' %}
+
+            <div class="flex gap-16 mt-24 justify-end">
+                <a class="btn secondary h-48" href="javascript: window.history.back();">Cancelar</a>
+                <button class="btn h-48 btn-submit" type="button">Salvar</button>
+            </div>
+        </form>
+    </div>
+</main>
+
+{% include 'financeiro/rateio/item_rateio_hidden.html' %}
+
+{% endblock %}
+
+{% block extra_js %}
+{% include 'financeiro/rateio/scripts/all_scripts.html' %}
+{% endblock %}

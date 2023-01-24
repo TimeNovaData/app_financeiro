@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+<!--  -->
+
+{% block extra_styles_vendor %}
+{% endblock %}
+
+<!--  -->
+
+{% block extra_styles %}
+{% endblock %}
+
+<!--  -->
+
+{% block content %}
+<main class="container-content">
+
+	{% include 'top_buttons.html' %}
+	<div class="card mt-32 mb-48 py-24 flex flex-col  w-full  md2:mt-0">
+		<div class="flex items-center gap-8 mb-32 px-24 md:flex md:flex-wrap flex-1 md2:flex-col">
+			<svg class="h-24 w-24 text-primary-pure">
+				<use xlink:href="#icon_detail_fornecedor"></use>
+			</svg> 
+			
+			<h1 class="title ">
+				<p>Detalhes de caixas e bancos</p>
+			</h1>
+		</div>
+		<div class="tabs" js-tab>
+			<ul class="tabs-wrapper flex">
+				<li class="tab-item active" data-tab="tab-1">
+					Informações da conta
+				</li>
+				<li class="tab-item" data-tab="tab-2">
+					Dados bancários
+				</li>
+			</ul>
+
+			<div class="tabs-content p-24">
+				{% include 'financeiro/caixa_banco/caixas_bancos_detail/tab_informacoes_conta.html' %}
+
+				{% include 'financeiro/caixa_banco/caixas_bancos_detail/tab_dados_bancarios.html' %}
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}
+
+<!-- -->
+
+{% block extra_js_vendor %}
+{% endblock %}
+
+<!--  -->
+
+{% block extra_js %}
+{% endblock %}

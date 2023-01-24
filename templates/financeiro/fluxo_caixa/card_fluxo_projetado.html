@@ -1,0 +1,19 @@
+<div class="card mb-16 py-24 flex flex-col w-full md2:mt-0">
+	<div class="flex items-center px-24 gap-8">
+		<svg class="h-24 w-24 text-primary-pure">
+			<use xlink:href="#icon_fluxo_projetado"></use>
+		</svg>
+
+		<h1 class="title">
+			Fluxo de caixa projetado
+		</h1>
+
+	</div>
+	<div class=" max-w-full overflow-auto m-24 mt-32  sm:w-[21rem]">
+		<div id="chart"></div>
+		{{values.datas|json_script:"datas"}}
+		{{values.entradas|json_script:"entradas"}}
+		{{values.saidas|json_script:"saidas"}}
+		{{values.saldos|json_script:"saldos"}}
+	</div>
+</div>

@@ -1,0 +1,84 @@
+<script>
+    function changeTermo(idEmpresa, valueTermo = '') {
+        const urls = {
+            getTermoByEmpresa: "{% url 'get_termo_by_empresa' %}"
+        }
+
+        if (!idEmpresa) {
+            return
+        }
+        myLoader().show()
+        axios.get(urls.getTermoByEmpresa, {
+            params: {
+                id_empresa: idEmpresa
+            }
+        })
+            .then(({ data }) => {
+                GLOBAL.verifyHaveError(data)
+                // console.log(data, 'aqui');
+                setValuesTermo(data.termosJson, valueTermo)
+            })
+            .catch(error => {
+                GLOBAL.showToastify(error)
+                console.error(error)
+            })
+            .finally(() => {
+                myLoader().hide()
+            })
+    }
+
+    function setValuesTermo(options, valueTermo) {
+        const selectTermo = document.querySelector('#id_termo_cooperacao')
+        const choice = GLOBAL.getChoicesActive(selectTermo.id, listOfChoices)
+
+        if (choice) {
+            let arrOptions = options.map(i => ({ value: i.id, label: i.nome }))
+            arrOptions.unshift({ value: "", label: '---------', selected: true, disabled: true })
+            let newOption = {}
+            const arrFilter = arrOptions.filter(op => {
+                /* console.log(op.value == valueTermo, op.value, valueTermo) */
+                if (op.value == valueTermo && op.value != "") {
+                    newOption = { value: op.value, label: op.label, selected: true }
+                } else {
+                    return op
+                }
+            })
+            // console.log(arrOptions, newOption, arrFilter)
+            if (newOption != {}) {
+
+                arrOptions = [...arrFilter, newOption]
+            } else {
+                arrOptions = [...arrFilter]
+            }
+            choice.clearStore()
+            choice.setChoices([...arrOptions], 'value', 'label', 'selected', 'disabled', true)
+        }
+    }
+
+
+    function changeEmpresa() {
+        const empresaID = document.querySelector('#id_empresa')
+        const choice = GLOBAL.getChoicesActive(empresaID.id, listOfChoices)
+        const selectTermo = document.querySelector('#id_termo_cooperacao')
+        const choiceTermo = GLOBAL.getChoicesActive(selectTermo.id, listOfChoices)
+        let termoSelecionado = ''
+        if (choiceTermo) {
+            termoSelecionado = choiceTermo.getValue().value
+            // console.log(termoSelecionado)
+        }
+        let id = null
+        if (choice) {
+            id = choice.getValue().value
+
+        }
+        //quando entra p editar filtra os termos mas ja deixa o termo que estava anteriormente selecionado
+        changeTermo(id, termoSelecionado)
+        empresaID.addEventListener('change', () => {
+            let id = null
+            if (choice) {
+                id = choice.getValue().value
+            }
+            changeTermo(id)
+        })
+    }
+</script>

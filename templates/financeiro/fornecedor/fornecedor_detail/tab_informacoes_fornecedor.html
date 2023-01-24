@@ -1,0 +1,94 @@
+<div class="tab-collapse active" data-tab="tab-1">
+	<div class="tab-container">
+		<div class="flex items-center justify-between md2:mb-32 md2:flex-wrap md2:gap-8">
+			<h1 class="title mb-32 md2:mb-8">Informações do fornecedor</h1>
+
+			<a href="{% url 'fornecedor_update' object.id %}?secao=informacoes_fornecedor"
+				class="btn h-48 icon-right md2:w-full">
+				<svg class="w-16 h-16">
+					<use xlink:href="#icon_pen"></use>
+				</svg>
+				Atualizar dados
+			</a>
+		</div>
+
+		<div class="grid grid-cols-3 md:flex md:flex-col md:flex-wrap gap-16">
+			<label class="label font-semibold col-span-full">Informações gerais</label>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Contato</label>
+				{{fornecedor.contato|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Telefone</label>
+				{{fornecedor.telefone|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">CNPJ</label>
+				{{fornecedor.cnpj|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Email</label>
+				{{fornecedor.email|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Razão social</label>
+				{{fornecedor.razao_social|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Nome fantasia</label>
+				{{fornecedor.nome_fantasia|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Inscrição Estadual</label>
+				{{fornecedor.inscricao_estadual|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Inscrição Municipal</label>
+				{{fornecedor.inscricao_municipal|default:'-'}}
+			</div>
+		</div>
+
+		<div class="h-[.0625rem] col-span-full mt-16 mb-24 bg-neutral-20"></div>
+
+		<div class="grid grid-cols-4 md:flex md:flex-col md:flex-wrap gap-16">
+			<label class="label font-semibold col-span-full">Endereço</label>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">CEP</label>
+				{{fornecedor.endereco.cep|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Bairro</label>
+				{{fornecedor.endereco.bairro|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Cidade</label>
+				{{fornecedor.endereco.cidade|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Estado</label>
+				{{fornecedor.endereco.estado|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Rua</label>
+				{{fornecedor.endereco.rua|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Ponto de referência</label>
+				{{fornecedor.endereco.referencia|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1 col-span-2">
+				<label for="" class="label-detail">Número</label>
+				{{fornecedor.endereco.numero|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Latitude</label>
+				{{fornecedor.endereco.latitude|default:'-'}}
+			</div>
+			<div class="flex flex-col text-detail gap-1">
+				<label for="" class="label-detail">Longitude</label>
+				{{fornecedor.endereco.longitude|default:'-'}}
+			</div>
+		</div>
+	</div>
+</div>
+

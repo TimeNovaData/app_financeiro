@@ -1,0 +1,31 @@
+<div class="tab-collapse" data-tab="tab-4">
+    <div class="tab-container">
+        <div class="flex items-center justify-between gap-32 mb-32 md2:flex-wrap md2:gap-8">
+            <h1 class="title">Histórico</h1>
+        </div>
+        
+        {% for mudanca in object.logalteracoeslancamentofinanceiro_set.all %}
+        <div class="h-[.0625rem] col-span-full mb-16 bg-neutral-20"></div>
+            <div class="grid grid-cols-3 gap-16 md2:flex md2:flex-col md2:flex-wrap">
+                <div class="flex flex-col text-detail gap-1">
+                    <label for="" class="label-detail">Modificado/criado por</label>
+                    {{mudanca.usuario}}
+                </div>
+
+                <div class="flex flex-col text-detail gap-1">
+                    <label for="" class="label-detail">Data</label>
+                    {{mudanca.data|date:'d/m/Y \à\s H:i:s'}}
+                </div>
+
+                <div class="flex flex-col text-detail gap-1">
+                    <label for="" class="label-detail">Modificação</label>
+                    <div class="text-neutral-75">
+                        Mudou <span class="text-neutral-80">{{mudanca.campo_front}}</span>
+                        de <span class="text-neutral-80">{{mudanca.valor_anterior|default:'-'}}</span>
+                        para <span class="text-neutral-80">{{mudanca.valor_posterior|default:'-'}}</span>.
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>

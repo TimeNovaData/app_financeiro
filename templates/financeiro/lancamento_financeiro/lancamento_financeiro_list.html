@@ -1,0 +1,181 @@
+{% extends 'base_listagem_multipla.html' %}
+{% load humanize %}
+{% load widget_tweaks %}
+
+{% block title %}
+<div class="flex justify-between items-center gap-8 md2:flex-wrap p-24">
+	<h1 class="title text-neutral-100">
+		<svg class="h-24 w-24 text-primary-pure">
+			<use xlink:href="#icon_lancamentos"></use>
+		</svg>
+		Lançamentos
+	</h1>
+	<a href="{% url 'lancamento_financeiro_create' %}?tipo={{tipo}}" class="btn h-48">
+		<svg class="w-16 h-16">
+			<use xlink:href="#icon_plus"></use>
+		</svg>
+		Novo lançamento
+	</a>
+</div>
+{% endblock %}
+
+{% block navs %}
+<div class="tabs" js-tab>
+	<ul class="tabs-wrapper flex">
+		<li>
+			<a class="tab-item {% if tipo == 'Despesa' %} active {% endif %}" data-tab="tab-1"
+				href="{% url 'lancamento_financeiro_list' %}?x=&x=&tipo=Despesa">
+				Contas pagas e à pagar
+			</a>
+		</li>
+		<li>
+			<a class="tab-item {% if tipo == 'Receita' %} active {% endif %}" data-tab="tab-2"
+				href="{% url 'lancamento_financeiro_list' %}?x=&x=&tipo=Receita">
+				Contas recebidas e à receber
+			</a>
+		</li>
+	</ul>
+</div>
+{% endblock %}
+
+{% block sub_title %}
+<div class="flex  flex-col justify-between  md2:flex-wrap gap-8">
+	{% include 'financeiro/lancamento_financeiro/filtros.html' %}
+</div>
+
+{% endblock %}
+
+{% block table %}
+
+<div class="table-basic">
+	<table id="table_teste" js-table-ordenation>
+		<thead>
+			<tr>
+				<th data-reference="id" js-add-filter="order, id">
+					<p>N° do lançamento</p>
+				</th>
+
+				<th data-reference="compra__id" js-add-filter="order, compra__id">
+					<p>Compra</p>
+				</th>
+
+				<th data-reference="empresa__nome" js-add-filter="order, empresa__nome">
+					<p>Empresa</p>
+				</th>
+
+				<th data-reference="conta_gerencial__nome" js-add-filter="order, conta_gerencial__nome">
+					<p>Conta gerencial</p>
+				</th>
+
+				<th data-reference="destinacao" js-add-filter="order, destinacao">
+					<p>Destinação</p>
+				</th>
+
+				<th data-reference="tipo_documento__nome" js-add-filter="order, tipo_documento__nome">
+					<p>Documento</p>
+				</th>
+
+				<th data-reference="valor_total" class="pointer-events-none">
+					<p>Valor total</p>
+				</th>
+
+				<th data-reference="previsao_pagamento" class="pointer-events-none">
+					<p>Previsão de pagamento</p>
+				</th>
+
+				<th data-reference="data_vencimento" class="pointer-events-none">
+					<p>Data de vencimento</p>
+				</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for object in object_list %}
+			<tr>
+				<td data-reference="id">
+					<div class="px-8 py-10 td-container ">
+						<a class="btn-table-hover"
+							href="{% url 'lancamento_financeiro_detail' object.id %}?tipo={{tipo}}">{{object.id}}</a>
+					</div>
+				</td>
+
+				<td data-reference="compra__id">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.compra.id|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="empresa__nome">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.empresa.nome|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="conta_gerencial__nome">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.conta_gerencial.nome|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="destinacao">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.destinacao|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="tipo_documento__nome">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.tipo_documento|default:"-"}}</p>
+					</div>
+				</td>
+				<td data-reference="valor_total">
+					<div class="px-8 py-10 td-container">
+						<p>R$ {{object.valor_total|intcomma}}</p>
+					</div>
+				</td>
+
+				<td data-reference="previsao_pagamento">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.previsao_pagamento_proxima_parcela|date:"d/m/Y"|default:"-"}}</p>
+					</div>
+				</td>
+
+				<td data-reference="data_vencimento">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.data_vencimento|date:"d/m/Y"|default:"-"}}</p>
+					</div>
+				</td>
+			</tr>
+			{% empty %}
+			<tr>
+				<td colspan="9">
+					<div class="px-8 py-10 td-container">
+						<p>Nenhum resultado foi encontrado</p>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}
+
+
+{% block baixar_table %}
+{% include 'html_components/baixar_tabela.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+	const wrapperBadge = document.querySelector('.wrapper-filters')
+	const wrapperFields = document.querySelector('.modal_filtros_small')
+
+	modalFiltrar(wrapperBadge, wrapperFields).init()
+	const modal_filtros_small = ModalX('.modal_filtros_small', {
+		deep: true,
+		zIndex: 1000000,
+		zIndexDeep: 900000,
+		bgModal: "white"
+	}).init()
+</script>
+{% endblock %}

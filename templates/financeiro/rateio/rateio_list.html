@@ -1,0 +1,152 @@
+{% extends 'base_listagem_unica.html' %}
+{% load humanize %}
+
+{% block title %}
+<div class="flex justify-between md2:flex-wrap">
+	<h1 class="title text-neutral-100">
+		<svg class="h-24 w-24 text-primary-pure">
+			<use xlink:href="#icon_rateio"></use>
+		</svg>
+		Rateios
+	</h1>
+</div>
+{% endblock %}
+
+
+{% block table %}
+<div class="table-basic">
+	<table id="table_teste" js-table-ordenation>
+		<thead>
+			<tr>
+				<th data-reference="id" js-add-filter="order, id">
+					<p>ID</p>
+				</th>
+
+				<th data-reference="nome" js-add-filter="order, nome">
+					<p>Nome</p>
+				</th>
+
+				<th data-reference="valor" js-add-filter="order, valor">
+					<p>Valor</p>
+				</th>
+
+				<th data-reference="quantidade_itens" class="pointer-events-none">
+					<p>Quantidade de itens</p>
+				</th>
+
+				<th class="pointer-events-none"></th>
+			</tr>
+		</thead>
+
+		<tbody>
+			{% for object in object_list %}
+			<tr>
+				<td data-reference="id">
+					<div class="px-8 py-10 td-container ">
+						<a class="btn-table-hover" href="{% url 'rateio_detail' object.id %}">{{object.id}}</a>
+					</div>
+				</td>
+
+				<td data-reference="nome">
+					<div class="px-8 py-10 td-container ">
+						<p>{{object.nome}}</p>
+					</div>
+				</td>
+
+				<td data-reference="valor">
+					<div class="px-8 py-10 td-container">
+						<p>R$ {{object.valor|default:"0,00"|intcomma}}</p>
+					</div>
+				</td>
+
+				<td data-reference="quantidade_itens">
+					<div class="px-8 py-10 td-container">
+						<p>{{object.itemrateio_set.count}}</p>
+					</div>
+				</td>
+
+				<td>
+					<div class="flex items-center gap-16">
+						<div class="px-4 py-4 td-container">
+
+							<button onclick="openModal(this)" data-id="modal_delete-{{forloop.counter}}"
+								data-xopen="modal_delete" class="btn-action delete">
+								<svg>
+									<use xlink:href="#icon_delete"></use>
+								</svg>
+								Remover
+							</button>
+						</div>
+					</div>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<div class="modal_delete" data-position="center">
+		{% for object in object_list %}
+		<section data-id="modal_delete-{{forloop.counter}}"
+			class="rounded justify-between flex flex-col h-full flex-1 modal--content">
+			<form method="post" action="{% url 'rateio_delete' object.id %}" onsubmit="clickSubmit()">
+				{% csrf_token %}
+				<div class="flex flex-col ">
+					<header class="flex items-center justify-between h-[.375rem] bg-primary-pure rounded-t"></header>
+
+					<div
+						class="w-[20rem] self-center font-semibold flex-col flex items-center justify-center gap-12 mt-32">
+						<p class="text-neutral-90 text-lg">Excluir rateio</p>
+						<p class="text-neutral-70 text-center">
+							Deseja mesmo excluir o rateio <span class="text-neutral-80">{{object.id}}</span>? Esta ação
+							é irreversível.
+						</p>
+
+						<p class="text-neutral-70 text-center">
+							Excluir este rateio também excluirá
+							<span class="text-neutral-80">todos</span>
+							os lançamentos financeiros atrelados à ele.
+						</p>
+					</div>
+				</div>
+
+				<div class="h-[.0625rem] w-full  bg-neutral-30 mt-32"></div>
+
+				<div class="flex items-center gap-16 justify-between px-24 my-12 w-full">
+					<button data-xclose="modal_delete" type="button" class="btn secondary h-48 flex-1">Cancelar</button>
+					<button data-xclose="modal_delete" type="submit" class="btn h-48 flex-1 ">Excluir</button>
+				</div>
+			</form>
+		</section>
+		{% endfor %}
+	</div>
+</div>
+{% endblock %}
+
+
+{% block baixar_table %}
+{% include 'html_components/baixar_tabela.html' %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+	const modal_delete = ModalX('.modal_delete', {
+		deep: true,
+		zIndex: 1000000,
+		zIndexDeep: 900000,
+		bgModal: "white"
+	}).init()
+
+	function clickSubmit() {
+		// const btnSubmit = document.querySelector('.buttonSubmit')
+		// console.log(btnSubmit)
+		// btnSubmit.addEventListener('click',onsubmit)
+		window.location.reload()
+	}
+
+
+	function openModal(deleteButton) {
+		const dataId = deleteButton.getAttribute('data-id')
+		// console.log(dataId)
+	}
+</script>
+{% endblock %}

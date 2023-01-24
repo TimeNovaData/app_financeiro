@@ -1,0 +1,210 @@
+{% load widget_tweaks %}
+{% load humanize %}
+
+<form method="GET" action="">
+	<div class="card mt-32 mb-16 px-24 py-24 flex flex-col w-full md2:mt-0">
+		<div class="flex items-center md:flex md:flex-wrap flex-1 md2:flex-col">
+			<h1 class="title mb-32">
+				<svg class="h-24 w-24 text-primary-pure">
+					<use xlink:href="#icon_filtrar"></use>
+				</svg>
+				<p>Filtros</p>
+			</h1>
+		</div>
+		<div class="py-12 rounded-sm grid grid-cols-3 gap-16 md2:grid-cols-1 md2:max-h-[28.125rem]">
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.tipo_periodo.id_for_label}}"
+					class="label">{{filtro_form.tipo_periodo.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.tipo_periodo}}
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.data_inicial.id_for_label}}"
+					class="label">{{filtro_form.data_inicial.label}}</label>
+				{{filtro_form.data_inicial|add_class:"h-48"}}
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.data_final.id_for_label}}"
+					class="label">{{filtro_form.data_final.label}}</label>
+				{{filtro_form.data_final|add_class:"h-48"}}
+			</div>
+		</div>
+
+		<div class="pb-12 rounded-sm grid grid-cols-4 gap-16 md2:grid-cols-1 md2:max-h-[28.125rem]">
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.projetos_nivel1.id_for_label}}"
+					class="label">{{filtro_form.projetos_nivel1.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.projetos_nivel1}}
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.projetos_nivel2.id_for_label}}"
+					class="label">{{filtro_form.projetos_nivel2.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.projetos_nivel2}}
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.projetos_nivel3.id_for_label}}"
+					class="label">{{filtro_form.projetos_nivel3.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.projetos_nivel3}}
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.projetos_nivel4.id_for_label}}"
+					class="label">{{filtro_form.projetos_nivel4.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.projetos_nivel4}}
+				</div>
+			</div>
+		</div>
+
+		<div class="rounded-sm grid grid-cols-4 gap-16 md2:grid-cols-1 md2:max-h-[28.125rem]">
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.contas_nivel1.id_for_label}}"
+					class="label">{{filtro_form.contas_nivel1.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.contas_nivel1}}
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.contas_nivel2.id_for_label}}"
+					class="label">{{filtro_form.contas_nivel2.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.contas_nivel2}}
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.contas_nivel3.id_for_label}}"
+					class="label">{{filtro_form.contas_nivel3.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.contas_nivel3}}
+				</div>
+			</div>
+
+			<div class="flex flex-col gap-4">
+				<label for="{{filtro_form.contas_nivel4.id_for_label}}"
+					class="label">{{filtro_form.contas_nivel4.label}}</label>
+				<div class="select-container h-48">
+					{{filtro_form.contas_nivel4}}
+				</div>
+			</div>
+		</div>
+		{% comment %}
+		<div class="flex gap-20 mt-32">
+			<div class="radio-container round size-16 md2:mt-0">
+				<label class="check-label">
+					<input type="checkbox" name="saldo_projetado" class="sr-only">
+					<span class="radio-circle">
+						<i class="radio-circle-inner"></i>
+					</span>
+					<span class="text-neutral-70">
+						Exibir saldo projetado ??
+					</span>
+				</label>
+			</div>
+			<div class="radio-container round size-16 md2:mt-0">
+				<label class="check-label">
+					<input type="checkbox" name="contas_liquidadas" class="sr-only">
+					<span class="radio-circle">
+						<i class="radio-circle-inner"></i>
+					</span>
+					<span class="text-neutral-70">
+						Exibir contas liquidadas ??
+					</span>
+				</label>
+			</div>
+		</div>
+		{% endcomment %}
+		<div class="flex gap-20 mt-32">
+			{% comment %}
+			<div class="radio-container round size-16 md2:mt-0">
+				<label class="check-label">
+					<input type="checkbox" name="a_receber" class="sr-only">
+					<span class="radio-circle">
+						<i class="radio-circle-inner"></i>
+					</span>
+					<span class="text-neutral-70">
+						À receber ??
+					</span>
+				</label>
+			</div>
+			<div class="radio-container round size-16 md2:mt-0">
+				<label class="check-label">
+					<input type="checkbox" name="a_pagar" class="sr-only">
+					<span class="radio-circle">
+						<i class="radio-circle-inner"></i>
+					</span>
+					<span class="text-neutral-70">
+						À pagar ??
+					</span>
+				</label>
+			</div>
+			<div class="radio-container round size-16 md2:mt-0">
+				<label class="check-label">
+					<input type="checkbox" name="indicacao_caixa_banco" class="sr-only">
+					<span class="radio-circle">
+						<i class="radio-circle-inner"></i>
+					</span>
+					<span class="text-neutral-70">
+						Somente contas com indicação de caixa/banco ??
+					</span>
+				</label>
+			</div>
+			{% endcomment %}
+			<div class="radio-container round size-16 md2:mt-0">
+				<label for="{{filtro_form.somente_provisionadas.id_for_label}}" class="check-label">
+					{{filtro_form.somente_provisionadas|add_class:"sr-only"}}
+					<span class="radio-circle">
+						<i class="radio-circle-inner"></i>
+					</span>
+					<span class="text-neutral-70">
+						{{filtro_form.somente_provisionadas.label}}
+					</span>
+				</label>
+			</div>
+		</div>
+		<div class="h-2 w-full my-24 bg-neutral-30 border-none"></div>
+		<div class="flex font-semibold justify-between center">
+			<div class="flex gap-20 items-center font-normal">
+				{% comment %}
+					<div>
+						<span class="text-neutral-90">Caixas e contas corrente:</span>
+						<span class="text-primary-pure">?? Consideradas</span>
+					</div>
+					<div>
+						<span class="text-neutral-90">Saldo inicial em ??/??/????:</span>
+						<span class="text-primary-pure">R$ ???.??,??</span>
+					</div>
+				{% endcomment %}
+				<div>
+					<span class="text-neutral-90">Total de entradas: R$</span>
+					<span class="text-primary-pure">{{values.total_entradas|intcomma}}</span>
+				</div>
+				<div>
+					<span class="text-neutral-90">Total de saídas: R$</span>
+					<span class="text-primary-pure">{{values.total_saidas|intcomma}}</span>
+				</div>
+				<div>
+					<span class="text-neutral-90">Saldo final: R$</span>
+					<span class="text-primary-pure">{{values.total_saldos|intcomma}}</span>
+				</div>
+			</div>
+
+			<div class="flex gap-16 justify-end">
+				<a href="{% url 'fluxo_caixa' %}" class="btn secondary h-48">Limpar filtros</a>
+				<button class="btn h-48" type="submit">Gerar fluxo de caixa</button>
+			</div>
+		</div>
+	</div>
+</form>

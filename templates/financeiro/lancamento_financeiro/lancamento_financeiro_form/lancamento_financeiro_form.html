@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block extra_styles_vendor %}
+<!--  -->
+{% endblock %} {% block extra_styles %}
+<!--  -->
+
+{% endblock %}
+
+{% block content %}
+<main class="container-content">
+	{% include 'top_buttons.html' %}
+	<div class="card flex flex-col mt-32 mb-48 py-24 md2:mt-0">
+		<form action="" enctype="multipart/form-data" method="post">
+		{% csrf_token %}
+		
+			<h1 class="title px-24  mb-16">
+				<svg>
+					<use xlink:href="#icon_doc"></use>
+				</svg>
+				{{title}}
+			</h1>
+			
+
+			{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/main_form.html' %}
+
+			{% include 'financeiro/rateio/item_rateio_wrapper.html' %}
+
+			<div class="h-[.0625rem] col-span-full my-24 bg-neutral-20"></div>
+
+			{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/wrapper_parcela.html' %}
+
+			<div class="flex justify-end p-24 mt-32">
+				<div class="inline-flex gap-16">
+					<a href="javascript: window.history.back();" class="btn secondary h-48">Cancelar</a>
+					<button type="button" class="btn-submit btn h-48">Salvar</button>
+				</div>
+			</div>
+		
+	</form>
+</div>
+	{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/hidden_parcela.html' %}
+	{% include 'financeiro/rateio/item_rateio_hidden.html' %}
+</main>
+{% endblock %}
+
+<!-- -->
+
+{% block extra_js_vendor %}
+{% endblock %}
+
+<!--  -->
+
+{% block extra_js %}
+	{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/scripts/script_calcula_values.html' %}
+	{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/scripts/script_change_values.html' %}
+	{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/scripts/script_parcelas.html' %}
+	{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/scripts/script_preenche_parcelas.html' %}
+	{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/scripts/script_validate_parcelas.html' %}
+	{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/scripts/script_change_termo.html' %}
+	{% include 'financeiro/rateio/scripts/all_scripts.html' %}
+	{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_form/scripts/script_init.html' %}
+{% endblock %}

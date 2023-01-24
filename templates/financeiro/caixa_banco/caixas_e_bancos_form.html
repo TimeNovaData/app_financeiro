@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load widget_tweaks %}
+
+{% block extra_styles_vendor %}
+<!--  -->
+{% endblock %}
+
+{% block extra_styles %}
+<!--  -->
+{% endblock %}
+
+{% block content %}
+<main class="container-content">
+	{% include 'top_buttons.html' %}
+
+    <div class="card mt-32 mb-48 md2:mt-0 py-24">
+        <form action="" method="post">
+            {% csrf_token %}
+
+            <h1 class="title px-24">
+                <svg class="text-primary-pure">
+                    <use xlink:href="#icon_pen"></use>
+                </svg>
+                {{title}}
+            </h1>
+
+            <div class="grid grid-cols-2 mt-32 gap-16 md2:grid-cols-1 px-24">
+                <div class="flex flex-col col-span-full">{{form.errors}}</div>
+
+                <label class="label font-semibold  col-span-full">Informações da conta</label>
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">Nome da conta *</label>
+                    {{form.nome|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.tipo_conta.label}} *</label>
+                    <div class="select-container h-48">
+                        {{form.tipo_conta}}
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 mt-12 gap-16 md2:grid-cols-1 px-24">
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.periodo_abertura.label}} *</label>
+                    {{form.periodo_abertura|add_class:'h-48'}}
+                </div>
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form.periodo_encerramento.label}} *</label>
+                    {{form.periodo_encerramento|add_class:'h-48'}}
+                </div>
+            </div>
+
+            <div class="grid grid-cols-3 mt-12 gap-16 md2:grid-cols-1 px-24">
+                <div class="flex flex-col gap-4">
+                    <div class="radio-container round size-16 mt-32 md2:mt-0">
+                        <label class="check-label">
+                            {{form.considerar_fluxo_caixa|add_class:'sr-only'}}
+                            <span class="radio-circle">
+                                <i class="radio-circle-inner"></i>
+                            </span>
+                            {{form.considerar_fluxo_caixa.label}}
+                        </label>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="radio-container round size-16 mt-32 md2:mt-0">
+                        <label class="check-label">
+                            {{form.gerar_remessa_pagamento|add_class:'sr-only'}}
+                            <span class="radio-circle">
+                                <i class="radio-circle-inner"></i>
+                            </span>
+                            {{form.gerar_remessa_pagamento.label}}
+                        </label>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div class="radio-container round size-16 mt-32 md2:mt-0">
+                        <label class="check-label">
+                            {{form.aceita_lancamentos|add_class:'sr-only'}}
+                            <span class="radio-circle">
+                                <i class="radio-circle-inner"></i>
+                            </span>
+                            {{form.aceita_lancamentos.label}}
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+    		<div class="h-2 w-full my-24 bg-neutral-30 border-none"></div>
+            <div class="grid grid-cols-3  gap-16 md2:grid-cols-1 px-24">
+                <label class="label font-semibold  col-span-full">Dados bancários</label>
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form_dado_bancario.banco.label}} *</label>
+                    <div class="select-container h-48">
+                        {{form_dado_bancario.banco}}
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form_dado_bancario.agencia.label}} *</label>
+                    {{form_dado_bancario.agencia|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{form_dado_bancario.conta.label}} *</label>
+                    {{form_dado_bancario.conta|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+            </div>
+
+            <div class="flex gap-16 mt-24 justify-end px-24">
+                <a class="btn secondary h-48" href="javascript: window.history.back();">Cancelar</a>
+                <button class="btn h-48" type="submit">Salvar alterações</button>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock %}

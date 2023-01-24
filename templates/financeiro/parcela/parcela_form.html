@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+<!--  -->
+
+{% block extra_styles_vendor %}
+{% endblock %}
+
+<!--  -->
+
+{% block extra_styles %}
+{% endblock %}
+
+<!--  -->
+
+{% block content %}
+<main class="container-content">
+	{% include 'top_buttons.html' %}
+
+	<form action="" enctype="multipart/form-data" method="post">
+		{% csrf_token %}
+		<div class="card flex flex-col mt-32 mb-48 md2:mt-0">
+			<h1 class="title p-24 mb-32 ">
+				<svg class="text-primary-pure w-24 h-24">
+					<use xlink:href="#icon_pen"></use>
+				</svg>
+
+				{{title}}
+			</h1>
+
+			<div>
+				<div class="grid grid-cols-4 gap-16 px-24 mb-16">
+					<div class="flex flex-col col-span-full">{{form.errors}}</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{form.lancamento_financeiro.id_for_label}}" class="label disabled">{{form.lancamento_financeiro.label}}</label>
+						<input type="text" value="" class="input-text disabled h-48" name="lancamento-estatico">
+						<div class="hidden">
+							{{form.lancamento_financeiro|add_class:'h-48 disabled'}}
+						</div>
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{form.data_referencia.id_for_label}}" class="label">{{form.data_referencia.label}}</label>
+						{{form.data_referencia|add_class:'h-48'}}
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{form.data_vencimento.id_for_label}}" class="label">{{form.data_vencimento.label}}</label>
+						{{form.data_vencimento|add_class:'h-48'}}
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{form.data_pagamento.id_for_label}}" class="label text-neutral-80">{{form.data_pagamento.label}}</label>
+						{{form.data_pagamento|add_class:'h-48'}}
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{form.valor.id_for_label}}" class="label text-neutral-80">{{form.valor.label}}</label>
+						<div class="input-icon icon-left">
+							{{form.valor|add_class:'h-48'}}
+							<svg>
+								<use xlink:href="#icon_dolar"></use>
+							</svg>
+						</div>
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{form.acrescimo.id_for_label}}" class="label">{{form.acrescimo.label}}</label>
+						<div class="input-icon icon-left">
+							{{form.acrescimo|add_class:'h-48'}}
+							<svg>
+								<use xlink:href="#icon_dolar"></use>
+							</svg>
+						</div>
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{form.desconto.id_for_label}}" class="label">{{form.desconto.label}}</label>
+						<div class="input-icon icon-left">
+							{{form.desconto|add_class:'h-48'}}
+							<svg>
+								<use xlink:href="#icon_dolar"></use>
+							</svg>
+						</div>
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label class="label disabled">Valor efetivo</label>
+						<div class="input-icon icon-left">
+							<input class="input-text h-48 disabled" disabled value="{{object.valor_efetivo}}" js-ativo
+								id="id_valor_efetivo">
+							<svg>
+								<use xlink:href="#icon_dolar"></use>
+							</svg>
+						</div>
+					</div>
+				</div>
+
+				<div class="grid grid-cols-2 gap-16 px-24">
+					<div class="flex flex-col gap-4">
+						<label for="{{form.caixa_banco_real.id_for_label}}" class="label text-neutral-80">{{form.caixa_banco_real.label}}</label>
+						{{form.caixa_banco_real|add_class:'h-48'}}
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{form.conta_gerencial.id_for_label}}" class="label text-neutral-80">{{form.conta_gerencial.label}}</label>
+						{{form.conta_gerencial|add_class:'h-48'}}
+					</div>
+
+					<div class="flex flex-col col-span-full">
+						<label for="{{form.observacoes.id_for_label}}" class="label">{{form.observacoes.label}}</label>
+						{{form.observacoes|add_class:'h-48'}}
+					</div>
+				</div>
+			</div>
+
+			<div class="flex justify-end p-24 my-32">
+				<div class="inline-flex gap-16">
+					<a href="{% url 'parcela_list' %}" class="btn secondary h-48">Cancelar</a>
+					<button type="submit" class="btn h-48">Salvar</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</main>
+{% endblock %}
+
+<!-- -->
+
+{% block extra_js %}
+<script>
+	function preencheInput() {
+		const input = document.querySelector('input[name=lancamento-estatico]')
+		const selectLancamento = document.querySelector('#id_lancamento_financeiro')
+		const choices = GLOBAL.getChoicesActive(selectLancamento.id, listOfChoices)
+		const value = choices.getValue().label
+		input.value = value
+	}
+
+	function calculaValorEfetivo() {
+		const inputValueTotalString = document.querySelector("#id_valor").value
+		const desconto = document.querySelector("#id_desconto").value
+		const acrescimo = document.querySelector("#id_acrescimo").value
+		const valorTotal = Number(inputValueTotalString)
+
+		return valorTotal + Number(acrescimo) - Number(desconto)
+	}
+	function changeValues() {
+
+		const inputValorTotal = document.querySelector("#id_valor")
+		const inputValorEfetivo = document.querySelector("#id_valor_efetivo")
+
+		const desconto = document.querySelector("#id_desconto")
+		const acrescimo = document.querySelector("#id_acrescimo")
+
+		inputValorTotal.addEventListener('input', () => {
+			inputValorEfetivo.value = calculaValorEfetivo().toFixed(2)
+
+		})
+
+		desconto.addEventListener('input', () => {
+			inputValorEfetivo.value = calculaValorEfetivo().toFixed(2)
+
+		})
+		acrescimo.addEventListener('input', () => {
+			inputValorEfetivo.value = calculaValorEfetivo().toFixed(2)
+
+		})
+	}
+
+	(function init() {
+		preencheInput()
+		changeValues()
+	})()
+</script>
+{% endblock %}
+
+{% block extra_js_vendor %}
+{% endblock %}

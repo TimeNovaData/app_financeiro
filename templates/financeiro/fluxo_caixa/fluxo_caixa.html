@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+
+<!--  -->
+
+{% block extra_styles_vendor %}
+{% endblock %}
+
+<!--  -->
+
+{% block extra_styles %}
+<style>
+	@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+	body {
+		font-family: Roboto, sans-serif;
+	}
+
+	#chart {
+		padding-top: 0px;
+		padding-bottom: 0px;
+		margin: 0px auto;
+	}
+
+
+	.apexcharts-tooltip {
+		color: #495057;
+	}
+
+	.apexcharts-toolbar {
+    position: absolute;
+    right: auto !important;
+    left: 10px;
+	margin-top: .3125rem;
+	gap: 8px;
+}
+</style>
+{% endblock %}
+
+<!--  -->
+
+{% block content %}
+<main class="container-content">
+	{% include 'top_buttons.html' %}
+
+	{% include 'financeiro/fluxo_caixa/card_filtros.html' %}
+
+	{% include 'financeiro/fluxo_caixa/card_fluxo.html' %}
+
+	{% include 'financeiro/fluxo_caixa/card_fluxo_projetado.html' %}
+</main>
+{% endblock %}
+
+<!-- -->
+
+{% block extra_js_vendor %}
+{% endblock %}
+
+<!--  -->
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+{% include 'financeiro/fluxo_caixa/scripts/script_chart.html' %}
+{% endblock %}

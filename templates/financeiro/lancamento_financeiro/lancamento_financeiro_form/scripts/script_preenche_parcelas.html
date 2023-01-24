@@ -1,0 +1,198 @@
+<script>
+    async function getDates(qtd, firstDate, interval = 30, diaMes = "dias") {
+        try {
+            const request = await axios.get(`/core/generate-date-by-interval/${qtd ? qtd : 1}/?initial_date=${firstDate ? firstDate : ''}&interval=${interval ? interval : 30}&dia_mes=${diaMes}`, {
+
+            })
+            const data = await request.data
+            GLOBAL.verifyHaveError(data)
+
+            return await data
+        }
+        catch (error) {
+            GLOBAL.showToastify(error)
+            console.error(error)
+        }
+    }
+
+    function verificaData(choicesReferencia, dataReferencia, index, arrayDates) {
+        const value = choicesReferencia.getValue().value.toLowerCase()
+        const dataReferenciaGeral = document.querySelector('#id_data_referencia')
+
+        if (value == 'fixa') {
+            dataReferencia.value = dataReferenciaGeral.value
+            // console.log('qqq')
+        } else if (value == 'de acordo com data de vencimento') {
+            arrayDates?.dates.forEach((date, teste) => {
+                if ((index) === teste) {
+                    let newDate = new Date(date);
+
+                    dataReferencia.value = newDate.toISOString().substring(0, 10)
+                }
+            })
+        }
+    }
+
+    async function preencheDataReferencia(wrapper) {
+        const referecia = document.querySelector('#id_data_referencia_parcelas')
+        const choicesReferencia = GLOBAL.getChoicesActive(referecia.id, listOfChoices)
+        const dataReferenciaGeral = document.querySelector('#id_data_referencia')
+        const inlinesVisiveis = wrapper.querySelectorAll(".inline-item[data-js-inline='inline_parcela']:not(.hidden)");
+        const quantidade = inlinesVisiveis.length
+        const primeiraParcela = document.querySelector('#primeira_parcela')?.value
+        const intervaloParcelas = document.querySelector('#intervalo_parcelas')?.value
+        const diaMes = document.querySelector('#dia_mes')?.value
+
+
+        const arrayDates = await getDates(quantidade, primeiraParcela, intervaloParcelas, diaMes)
+        inlinesVisiveis.forEach((inline, index) => {
+
+            const dataReferencia = inline.querySelector('[js-data-referencia]')
+
+            if (choicesReferencia) {
+
+                verificaData(choicesReferencia, dataReferencia, index, arrayDates)
+
+                referecia.addEventListener('change', () => verificaData(choicesReferencia, dataReferencia, index))
+            }
+        })
+    }
+    function preencheSelectsParcelas(inline){
+        const selectContaGerencial = document.querySelector('[name="conta_gerencial"]')
+        const selectContaPagamento = document.querySelector('[name="conta_caixa"]')
+        
+        const inlineContaGerencial = inline.querySelector('[name$="-conta_gerencial"')
+        const inlineContaCaixa = inline.querySelector('[name$="-caixa_banco_real"')
+       
+
+        function setValueSelect(select,selectInline){
+            const choice = GLOBAL.getChoicesActive(select.id, listOfChoices)
+            const choiceInline = GLOBAL.getChoicesActive(selectInline.id, listOfChoices)
+
+            if (choice && choiceInline) {
+                const arrContaGerencial = Array.from(select.options)
+                const op = arrContaGerencial.filter(item => item.selected === true)
+                if (op.length) {
+                    choiceInline.setChoiceByValue(op[0].value)
+                }
+            }
+        }
+        if(verififyDataPagamento(inline)) return
+        setValueSelect(selectContaGerencial, inlineContaGerencial)
+        setValueSelect(selectContaPagamento, inlineContaCaixa)   
+        
+    }
+
+    function eventSelects(wrapper){
+        const selectContaGerencial = document.querySelector('[name="conta_gerencial"]')
+        const selectContaPagamento = document.querySelector('[name="conta_caixa"]')
+      
+        if(wrapper.dataset.edit === 'true') return
+        selectContaGerencial.addEventListener('change', () => {
+            const inlinesVisiveis = wrapper.querySelectorAll('.inline-item[data-js-inline="inline_parcela"]:not(.hidden)');
+            inlinesVisiveis.forEach((inline, index) => {
+                if(verififyDataPagamento(inline)) return
+                preencheSelectsParcelas(inline)
+            })
+        })
+
+        selectContaPagamento.addEventListener('change', () => {
+            const inlinesVisiveis = wrapper.querySelectorAll('.inline-item[data-js-inline="inline_parcela"]:not(.hidden)');
+            inlinesVisiveis.forEach((inline, index) => {
+                if(verififyDataPagamento(inline)) return
+                preencheSelectsParcelas(inline)
+            })
+        })
+    }
+
+
+    const addClass = (array) => array.forEach(item => item.classList.add('disabled')) 
+    const removeClass = (array) => array.forEach(item => item.classList.remove('disabled')) 
+
+    function verififyDataPagamento(inline) {
+
+        const inputs = inline.querySelectorAll('input:not([js-valor-efetivo]):not(.hidden):not([type="hidden"])')
+            const selectsContainer = inline.querySelectorAll('.select-container')
+            const labels = inline.querySelectorAll('.label:not(.titulo-parcela):not(.observacoes)')
+            const dataPagamento = inline.querySelector("[js-data-pagamento]")
+
+                if (dataPagamento.value !== '') {
+                   addClass([...inputs, ...selectsContainer, ...labels ])
+                    return true
+                } else {
+                    removeClass([...inputs, ...selectsContainer])
+                    return false
+                }
+            }
+
+    function disabledParcelaPaga(wrapper) {
+        const inlinesVisiveis = wrapper.querySelectorAll('.inline-item[data-js-inline="inline_parcela"]:not(.hidden)');
+        inlinesVisiveis.forEach((inline, index) => {
+            // console.log(dataPagamento, 'dataPagamento') 
+            verififyDataPagamento(inline)
+
+        })
+
+
+    }
+
+
+    async function preencheParcelas(wrapper) {
+
+        const valorTotalString = document.querySelector("#id_valor_efetivo").value.replace('.', '').replace(',', '.')
+        let valorTotalNumeral = numeral(`$${valorTotalString}`);
+        const valorTotal = valorTotalNumeral.value();
+
+        const inlinesVisiveis = wrapper.querySelectorAll('.inline-item[data-js-inline="inline_parcela"]:not(.hidden)');
+        const quantidade = inlinesVisiveis.length
+        const valorParcela = (valorTotal / quantidade)
+        // console.log('aq', valorTotal, valorParcela)
+        const primeiraParcela = document.querySelector('#primeira_parcela')
+        const intervaloParcelas = document.querySelector('#intervalo_parcelas')
+        const diaMes = document.querySelector('#dia_mes')
+
+        const arrayDates = await getDates(quantidade, primeiraParcela?.value, intervaloParcelas?.value, diaMes?.value)
+
+        inlinesVisiveis.forEach((inline, index) => {
+            const valor = inline.querySelector("[js-valor]")
+            const datasVencimento = inline.querySelector("[js-data-vencimento]")
+            const dataPagamento = inline.querySelector("[js-data-pagamento]")
+            const valorEfetivo = inline.querySelector("[js-valor-efetivo]")
+            const acrescimo = inline.querySelector("[js-acrescimo]")
+            const desconto = inline.querySelector("[js-desconto]")
+            const dataReferencia = inline.querySelector('[js-data-referencia]')
+
+            const spanParcela = inline.querySelector('.n-parcelas')
+            spanParcela.textContent = index + 1
+
+            valorEfetivo.value = (Number(valor.value) + Number(acrescimo.value) - Number(desconto.value)).toFixed(2)
+
+            arrayDates?.dates.forEach((date, teste) => {
+                if ((index) === teste) {
+                    let newDate = new Date(date);
+
+                    datasVencimento.value = newDate.toISOString().substring(0, 10)
+                }
+            })
+
+            //preenchendo data referencia
+            preencheDataReferencia(wrapper)
+            //FIM preenchendo data referencia
+
+         //  preencheSelectsParcelas(inline)
+
+            // disabledParcelaPaga(wrapper)
+
+            valor.addEventListener('input', () => {
+                valorEfetivo.value = (Number(valor.value) + Number(acrescimo.value) - Number(desconto.value)).toFixed(2)
+            })
+            acrescimo.addEventListener('input', () => {
+                valorEfetivo.value = (Number(valor.value) + Number(acrescimo.value) - Number(desconto.value)).toFixed(2)
+            })
+            desconto.addEventListener('input', () => {
+                valorEfetivo.value = (Number(valor.value) + Number(acrescimo.value) - Number(desconto.value)).toFixed(2)
+            })
+        })
+
+    }
+</script>

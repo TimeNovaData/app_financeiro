@@ -1,0 +1,76 @@
+{% load humanize %}
+
+<div class="tab-collapse" data-tab="tab-3">
+    <div class="tab-container">
+        <div class="flex items-center justify-between gap-32 mb-32 md2:flex-wrap md2:gap-8">
+            <h1 class="title">Dados das empresas</h1>
+            <div class="flex gap-16">
+                <button class="btn secondary red h-48  icon-right" data-id="modal_delete" data-xopen="modal_delete">
+                    <svg>
+                        <use xlink:href="#icon_close"></use>
+                    </svg>
+                    Excluir lançamento
+                </button>
+                <a class="btn h-48" href="{% url 'lancamento_financeiro_update' object.id %}?tipo={{tipo}}">
+                    <svg class="w-20 h-20">
+                        <use xlink:href="#icon_pen"></use>
+                    </svg>
+                    Alterar dados
+                </a>
+            </div>
+        </div>
+        <div class="grid grid-cols-2 gap-16 md2:flex md2:flex-col md2:flex-wrap">
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">
+                    {% if tipo == "Despesa" %}Empresa à pagar {% else %} Empresa à receber {% endif %}
+                </label>
+                {{object.empresa|default:"-"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Estado</label>
+                {{object.empresa.endereco.estado|default:"-"}}
+            </div>
+
+            {% if tipo == "Despesa" %}
+                <div class="h-[.0625rem] col-span-full my-8 bg-neutral-20"></div>
+
+                <label for="" class="label font-semibold  col-span-full ">
+                    Empresa {{ object.empresa.nome }}
+                </label>
+
+                <div class="flex flex-col text-detail gap-1">
+                    <label for="" class="label-detail">Termo</label>
+                    {% if object.compra.termo_cooperacao %}
+                        <a class="text-primary-pure"
+                            href="{% url 'termo_cooperacao_nivel4_detail' object.compra.termo_cooperacao.id %}" target="_blank">
+                            {{ object.compra.termo_cooperacao }}
+                        </a>
+                    {% else %}
+                        -
+                    {% endif %}
+                </div>
+
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label class="label-detail  label-saldo">
+                        <span id="saldo-negativo" class="texthelper-error hidden"
+                            data-tippy-content="Atenção, atualmente esse termo está com o valor negativo.">
+                            Saldo do termo
+                            <svg>
+                                <use xlink:href="#icon_helper"></use>
+                            </svg>
+                        </span>
+                        <span id="saldo-positivo" class="">
+                            Saldo do termo  
+                        </span>
+                    </label>
+
+                    <span class="container-saldo">
+                        R$<span class="saldo-termo">{{object.saldo_termo_cooperacao|default:"0,00"|intcomma}}</span>
+                    </span>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

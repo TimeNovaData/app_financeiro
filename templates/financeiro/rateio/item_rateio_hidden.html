@@ -1,0 +1,54 @@
+{% load widget_tweaks %}
+{% load humanize %}
+
+
+
+<div class="hidden">
+    <div class="empty_inline_form" data-js-inline="inline_item_rateio">
+        <div class="inline-item inline-__prefix__ border border-neutral-30 rounded-sm py-24 px-16 mb-32 relative"
+            data-js-inline="inline_item_rateio">
+            {{item_rateio_inline_formset.empty_form.errors}}
+            <div class="hidden">
+                {{item_rateio_inline_formset.empty_form.DELETE}}
+                {{item_rateio_inline_formset.empty_form.id}}
+            </div>
+
+            <div class="grid grid-cols-4 gap-16 md2:grid-cols-1">
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{item_rateio_inline_formset.empty_form.empresa.label}}</label>
+                    <div class="select-container h-48">
+                        {{item_rateio_inline_formset.empty_form.empresa|attr:'js-no-choices'}}
+                    </div>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{item_rateio_inline_formset.empty_form.termo_cooperacao.label}}</label>
+                    <div class="select-container h-48">
+                        {{item_rateio_inline_formset.empty_form.termo_cooperacao|attr:'js-no-choices'}}
+                    </div>
+       
+                </div>
+                <div class="flex flex-col gap-4">
+                    <label for="" class="label">{{item_rateio_inline_formset.empty_form.porcentagem.label}}</label>
+                    {{item_rateio_inline_formset.empty_form.porcentagem|add_class:'h-48'|attr:'js-ativo'}}
+                </div>
+                <div class="flex flex-col gap-4" js-value>
+                    <label for="" class="label">{{item_rateio_inline_formset.empty_form.valor.label}}</label>
+                    <div class="input-icon icon-left">
+                        {{item_rateio_inline_formset.empty_form.valor|add_class:'h-48'|attr:'js-ativo'}}
+                        <svg>
+                            <use xlink:href="#icon_dolar"></use>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <button type="button"
+                class="remove-button cursor-pointer w-32 h-32 bg-alert-red-10 rounded-full absolute top-8 right-8 grid place-items-center transition-transform hover:scale-110 remove_inline-__prefix__"
+                data-js-inline="inline_item_rateio">
+                <svg class="text-alert-red-100 w-16 h-16">
+                    <use xlink:href="#icon_close"></use>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,270 @@
+<script type="text/javascript">
+	const datasTextContent = document.getElementById('datas').textContent
+	const entradasTextContent = document.getElementById('entradas').textContent
+	const saidasTextContent = document.getElementById('saidas').textContent
+	const saldosTextContent = document.getElementById('saldos').textContent
+
+	const datas = JSON.parse(datasTextContent);
+	const entradas = JSON.parse(entradasTextContent);
+	const saidas = JSON.parse(saidasTextContent);
+	const saldos = JSON.parse(saldosTextContent);
+
+	// console.log(datas);
+
+	let optimalColumnWidthPercent = 20 + (60 / (1 + 30 * Math.exp(-29 / 3)));
+	let dataQtd = datas.length
+	var options = {
+		colors: ['#1CC066', '#EC3539', '#339AF0'],
+		series: [{
+			name: 'Entrada',
+			type: 'column',
+			data: entradas
+		}, {
+			name: 'Saída',
+			type: 'column',
+			data: saidas
+		}, {
+			name: 'Saldo',
+			type: 'line',
+			data: saldos
+		}],
+		chart: {
+			/* teste  */
+			width: `${dataQtd > 12 ? 1000 + dataQtd * 80 : '100%'}`,
+			height: 350,
+			type: 'bar',
+
+			background: '#F8F9FA',
+			toolbar: {
+				show: true,
+
+				offsetX: 0,
+				offsetY: 0,
+				tools: {
+					download: false,
+					selection: false,
+					zoom: true,
+					zoomin: true,
+					zoomout: true,
+					pan: false,
+					reset: true | '<img src="/static/icons/reset.png" width="20">',
+
+				},
+
+				autoSelected: 'zoom'
+			},
+
+			
+
+
+		},
+
+
+
+		noData: {
+			text: "sem dados",
+			align: 'center',
+			verticalAlign: 'middle',
+			offsetX: 0,
+			offsetY: 0,
+			style: {
+				color: undefined,
+				fontSize: '14px',
+				fontFamily: undefined
+			}
+		},
+		plotOptions: {
+			bar: {
+				columnWidth: `100%`,
+
+				dataLabels: {
+					position: 'top',
+					hideOverflowingLabels: true,
+
+				}
+			}
+		},
+
+		grid: {
+			show: true,
+
+			borderColor: '#E9ECEF',
+
+			xaxis: {
+				lines: {
+					show: false,
+
+				}
+			},
+			yaxis: {
+				lines: {
+					show: false,
+				}
+			},
+		},
+
+
+		markers: {
+			size: 4,
+			colors: undefined,
+			strokeColors: '#fff',
+			strokeWidth: 2,
+			strokeOpacity: 0.9,
+			strokeDashArray: 0,
+			fillOpacity: 1,
+			discrete: [],
+			shape: "circle",
+			radius: 2,
+			offsetX: 0,
+			offsetY: 0,
+			onClick: undefined,
+			onDblClick: undefined,
+			showNullDataPoints: true,
+			hover: {
+				size: undefined,
+				sizeOffset: 2
+			}
+		},
+		dataLabels: {
+			enabled: true,
+			enabledOnSeries: [0, 1],
+			formatter: function (num, opts) {
+				if (Math.abs(num) > 999 && Math.abs(num) < 1000000) {
+					return (num / 1000).toFixed(1) + 'K'; // convert to K for number from > 1000 < 1 million 
+				} else if (Math.abs(num) > 1000000) {
+					return (num / 1000000).toFixed(1) + 'M'; // convert to M for number from > 1 million 
+				} else if (Math.abs(num) < 900) {
+					return num; // if value < 1000, nothing to do
+				}
+				return num
+			},
+			textAnchor: 'middle',
+			distributed: false,
+
+			offsetX: 0,
+			offsetY: -20,
+			style: {
+				fontSize: '12px',
+
+				fontWeight: '500',
+				colors: ['#686E74']
+			},
+			background: {
+				enabled: false,
+
+
+			},
+
+
+		},
+		stroke: {
+			width: [1, 1, 1],
+
+		},
+
+
+
+
+		xaxis: {
+			type: 'category',
+			tickPlacement: 'on',
+			axisTicks: {
+				show: false,
+				height: 25
+			},
+			labels: {
+				datetimeUTC: true,
+
+				datetimeFormatter: {
+					year: 'yyyy',
+					month: "MMM 'yy",
+					day: 'dd MMM',
+					hour: 'HH:mm',
+				},
+			},
+			categories: datas,
+			title: {
+				text: "Período",
+				position: 'bottom',
+				style: {
+					color: '#495057',
+					fontSize: '12px',
+					fontWeight: 500,
+					cssClass: 'apexcharts-yaxis-title',
+				},
+			},
+			axisBorder: {
+				show: true,
+				color: '#E9ECEF',
+			},
+
+		},
+		yaxis: [
+			{
+				axisTicks: {
+					show: false,
+				},
+				axisBorder: {
+					show: true,
+					color: '#E9ECEF',
+
+				},
+				labels: {
+					style: {
+						colors: '#495057',
+					}
+				},
+				title: {
+					text: "",
+
+
+				},
+				tooltip: {
+					enabled: false
+				}
+			},
+
+		],
+		tooltip: {
+
+		},
+		legend: {
+			position: 'top',
+			horizontalAlign: 'right',
+
+			markers: {
+				width: 16,
+				height: 8,
+				strokeWidth: 0,
+				strokeColor: '#fff',
+				fillColors: undefined,
+				radius: 2,
+				customHTML: undefined,
+				onClick: undefined,
+				offsetX: 0,
+				offsetY: 0
+			},
+
+
+		},
+		responsive: [
+			{
+				breakpoint: 1000,
+				options: {
+
+					plotOptions: {
+
+					},
+
+				}
+			}
+		]
+
+	};
+
+	var chart = new ApexCharts(document.querySelector("#chart"), options);
+	chart.render();
+
+
+
+</script>

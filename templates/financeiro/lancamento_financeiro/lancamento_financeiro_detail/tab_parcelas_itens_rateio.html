@@ -1,0 +1,104 @@
+{% load humanize %}
+
+<div class="tab-collapse" data-tab="tab-2">
+    <div class="tab-container">
+        <div class="flex items-center justify-between gap-32 mb-32 md2:flex-wrap md2:gap-8">
+            <h1 class="title">Parcelas e itens de rateio</h1>
+
+            <div class="flex gap-16">
+                <button  class="btn secondary red h-48  icon-right"  data-id="modal_delete" data-xopen="modal_delete">
+                    <svg >
+                        <use xlink:href="#icon_close"></use>
+                    </svg>
+                    Excluir lançamento
+                </button>
+                <a class="btn h-48"
+                    href="{% url 'lancamento_financeiro_update' object.id %}?tipo={{tipo}}">
+                    <svg class="w-20 h-20">
+                        <use xlink:href="#icon_pen"></use>
+                    </svg>
+                    Alterar dados
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-16 md2:flex md2:flex-col md2:flex-wrap">
+            <label class="font-semibold label col-span-full">Parcelas</label>
+            {% for parcela in object.parcela_set.all %}
+                
+                <label for="" class="label font-semibold text-base col-span-full">
+                    Parcela {{ forloop.counter }}
+                </label>
+
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Data de Referência</label>
+                    {{parcela.data_referencia|date:'d/m/Y'|default:'-'}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Data de Vencimento</label>
+                    {{parcela.data_vencimento|date:'d/m/Y'|default:'-'}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Parcela paga</label>
+                    {{parcela.paga_str}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Valor</label>
+                    R$ {{parcela.valor|default:"0,00"}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Acréscimo</label>
+                    {{parcela.acrescimo|default:'-'}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Desconto</label>
+                    {{parcela.desconto|default:'-'}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Valor efetivo</label>
+                    {{parcela.valor_efetivo|default:'-'}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Caixa/banco real</label>
+                    {{parcela.caixa_banco_real|default:'-'}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Conta gerencial</label>
+                    {{parcela.conta_gerencial|default:'-'}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 col-span-full">
+                    <label for="" class="label-detail">Observações</label>
+                    {{parcela.observacoes|default:'-'}}
+                </div>
+                <div class="h-[.0625rem] col-span-full  bg-neutral-20"></div>
+            {% empty %}
+            <div class="text-detail">Não foram encontradas parcelas</div>
+            <div class="h-[.0625rem] col-span-full  bg-neutral-20"></div>
+            {% endfor %}
+ <label class="font-semibold label col-span-full">Itens de rateio</label>
+            {% for item_rateio in object.rateio.itemrateio_set.all %}
+               
+                <label for="" class="label font-semibold text-base col-span-full">
+                    Item de rateio {{ forloop.counter }}
+                </label>
+
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Termo</label>
+                    {{item_rateio.termo_cooperacao|default:'-'}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Valor</label>
+                {{item_rateio.valor|default:'0,00'|intcomma}}
+                </div>
+                <div class="flex flex-col text-detail gap-1 ">
+                    <label for="" class="label-detail">Porcentagem</label>
+                    {{item_rateio.porcentagem}} %
+                </div>
+                <div class="h-[.0625rem] col-span-full  bg-neutral-20"></div>
+            {% empty %}
+            <div class="text-detail">Não foram encontrados itens de rateio</div>
+         
+            {% endfor %}
+        </div>
+    </div>
+</div>

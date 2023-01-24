@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+<!--  -->
+
+{% block extra_styles_vendor %}
+{% endblock %}
+
+<!--  -->
+
+{% block extra_styles %}
+{% endblock %}
+
+<!--  -->
+
+{% block content %}
+<main class="container-content">
+
+	{% include 'top_buttons.html' %}
+	<div class="card mt-32 mb-48 py-24 flex flex-col  w-full  md2:mt-0">
+		<div class="flex items-center px-24 mb-32 gap-8">
+			<svg class="h-24 w-24 text-primary-pure">
+				<use xlink:href="#icon_termo"></use>
+			</svg>
+
+			<h1 class="title">
+				<p>Detalhes do lançamento</p>
+			</h1>
+		</div>
+		<div class="tabs" js-tab>
+			<ul class="tabs-wrapper flex">
+				<li class="tab-item active" data-tab="tab-1">
+					Informações de pagamento
+				</li>
+				<li class="tab-item" data-tab="tab-2">
+					Parcelas e itens de rateio
+				</li>
+				<li class="tab-item" data-tab="tab-3">
+					Dados das empresas
+				</li>
+				<li class="tab-item" data-tab="tab-4">
+					Histórico
+				</li>
+			</ul>
+
+			<div class="tabs-content p-24">
+				{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_detail/tab_informacoes_pagamento.html' %}
+
+				{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_detail/tab_parcelas_itens_rateio.html' %}
+
+				{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_detail/tab_dados_empresas.html' %}
+
+				{% include 'financeiro/lancamento_financeiro/lancamento_financeiro_detail/tab_historico.html' %}
+			</div>
+		</div>
+	</div>
+</main>
+
+<div class="modal_delete" data-position="center">
+	<section data-id="modal_delete" class="rounded justify-between h-full flex-col flex modal--content ">
+		<form method="post" action="{% url 'lancamento_financeiro_delete' object.id %}?tipo={{tipo}}">
+			{% csrf_token %}
+			<div class="flex flex-col">
+				<header class="flex items-center justify-between h-[.375rem] bg-primary-pure rounded-t"></header>
+
+				<div
+					class="w-[20rem] self-center font-semibold flex-col flex items-center justify-center gap-12 mt-32 px-8">
+					<p class="text-neutral-90 text-lg">Excluir lançamento</p>
+					<p class="text-neutral-70 text-center">
+						Deseja mesmo excluir o lançamento <span class="text-neutral-80">{{object}}</span>? Esta ação é
+						irreversível.
+					</p>
+				</div>
+				<div class="h-[.0625rem] w-full  bg-neutral-30 mt-32"></div>
+				<div class="flex items-center gap-16 justify-between px-24 my-12 w-full">
+
+					<button data-xclose="modal_delete" type="button" class="btn secondary h-48 flex-1">Cancelar</button>
+					<button data-xclose="modal_delete" type="submit" class="btn h-48 flex-1 ">Excluir</button>
+				</div>
+			</div>
+		</form>
+	</section>
+</div>
+{% endblock %}
+
+<!-- -->
+
+{% block extra_js_vendor %}
+{% endblock %}
+
+<!--  -->
+
+{% block extra_js %}
+<script>
+	const modal_delete = ModalX('.modal_delete', {
+		deep: true,
+		zIndex: 1000000,
+		zIndexDeep: 900000,
+		bgModal: "white"
+	}).init()
+
+	function clickSubmit() {
+		// const btnSubmit = document.querySelector('.buttonSubmit')
+		// console.log(btnSubmit)
+		// btnSubmit.addEventListener('click',onsubmit)
+		window.location.reload()
+	}
+
+
+	function openModal(deleteButton) {
+		const dataId = deleteButton.getAttribute('data-id')
+	}
+
+	function styleSaldoNegativo() {
+		const spanTooltipNegativo = document.querySelector('#saldo-negativo')
+		const spanTooltipPositivo = document.querySelector('#saldo-positivo')
+		const label = document.querySelector('.label-saldo')
+		const span = document.querySelector('.saldo-termo')
+		const spanContainer = document.querySelector('.container-saldo')
+		let value = numeral(span.textContent);
+		if (value.value() < 0) {
+			spanTooltipNegativo.classList.remove('hidden')
+			spanTooltipPositivo.classList.add('hidden')
+			span.classList.add('text-alert-red-100')
+			spanContainer.classList.add('text-alert-red-100')
+			label.classList.add('text-alert-red-100')
+			label.classList.add('cursor-pointer')
+
+		}else{
+			spanTooltipNegativo.classList.add('hidden')
+			spanTooltipPositivo.classList.remove('hidden')
+		}
+	}
+	
+	(function init() {
+		styleSaldoNegativo()
+	})()
+
+</script>
+{% endblock %}

@@ -1,0 +1,64 @@
+<script>
+    
+    function validateParcelas(wrapper, event) {
+        event.preventDefault();
+        
+        const valorTotalString = document.querySelector("#id_valor_efetivo").value.replace('.', '').replace(',', '.')
+        
+        let valorTotalNumeral = numeral(`$${valorTotalString}`);
+        const valorTotal = valorTotalNumeral.value();
+
+
+        const inlinesVisiveis = wrapper.querySelectorAll(".inline-item[data-js-inline='inline_parcela']:not(.hidden)");
+        const inputQtdInlines = document.querySelector('.qtd-inlines')
+
+        const button = document.querySelector('#gerar_parcelas')
+        let valorTotalParcelas = 0
+        let isVazio = false
+        inlinesVisiveis.forEach(inline => {
+            const valores = inline.querySelectorAll("[js-valor]")
+
+            const inlineContaGerencial = inline.querySelector('[name$="-conta_gerencial"')
+            const inlineContaCaixa = inline.querySelector('[name$="-caixa_banco_real"')
+        
+            let optSelected = inlineContaGerencial.querySelector('option').value
+            if (optSelected == '' && inlineContaGerencial.getAttribute('hidden') != null) {
+                isVazio = true
+            }
+            optSelected = inlineContaCaixa.querySelector('option').value
+            if (optSelected == '' && inlineContaCaixa.getAttribute('hidden') != null) {
+                isVazio = true
+            }
+            valores.forEach(valor => {
+                valorTotalParcelas += Number(valor.value)
+            })
+        })
+
+        const roundValorParcelas = Math.round(valorTotalParcelas)
+        const roundValorTotal = Math.round(valorTotal)
+        //ACEITANDO PARCELAS COM VALOR NEGATIVO
+        // console.log(roundValorParcelas, roundValorTotal)
+    /*     if (roundValorParcelas !== roundValorTotal) { 
+            GLOBAL.showToastify("O valor total das parcelas deve ser igual ao valor efetivo do lançamento")
+ 
+        }else */ 
+
+
+        if ( inputQtdInlines && Number(inputQtdInlines.value) !== inlinesVisiveis.length) {
+            inputQtdInlines.value = ""
+            GLOBAL.showToastify("A quantidade de parcelas informada deve ser igual a quantidade gerada")
+            return false
+        }else if (inputQtdInlines && inlinesVisiveis.length > 1 && choices.getValue().value.toLowerCase() == 'à vista') {   
+            inputQtdInlines.value = 1
+            GLOBAL.showToastify("Para criar mais de uma parcela mude a forma de pagamento para Parcelado")
+            button.click()
+            return false
+        }else if(isVazio){
+            GLOBAL.showToastify("Preencha todos os campos obrigatórios das parcelas para seguir")
+            return false
+        }
+        return true
+    }
+
+    
+</script>

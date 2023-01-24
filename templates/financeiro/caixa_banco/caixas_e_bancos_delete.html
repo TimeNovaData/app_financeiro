@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block extra_styles_vendor %}
+<!--  -->
+{% endblock %}
+
+{% block extra_styles %}
+<!--  -->
+{% endblock %}
+
+{% block content %}
+<main class="container-content">
+	{% include 'top_buttons.html' %}
+
+	<div class="card mt-30">
+		<h1 class="title">{{title}}</h1>
+
+		<form action="" method="post">
+			{% csrf_token %}
+			<div>
+				<div>
+					Tem certeza que deseja deletar  {{object.nome}}?
+					Essa ação é irreversível.
+				</div>
+			</div>
+
+			<div class="flex">
+				<a href="javascript: window.history.back();" class="btn secondary">Cancelar</a>
+				<button type="submit" class="btn">Deletar conta</button>
+			</div>
+		</form>
+	</div>
+</main>
+{% endblock %}
+
+{% block extra_js_vendor %}
+<!-- -->
+{% endblock %}
+
+{% block extra_js %}
+<!--  -->
+{% endblock %}

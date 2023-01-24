@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Importação da base contas gerenciais
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h2>Importação da base contas gerenciais de nível 4</h2>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <form action="{% url 'importador_conta_gerencial' %}" method="POST"
+                            enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-12">
+                                    {% csrf_token %}
+                                    <h4>Insira aqui uma tabela excel e clique em importar</h4>
+                                    <input name="tabela" type="file" required>
+                                    <input type="submit" class="btn secondary h-48" value="Importar">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    {% if error %}
+                    <div class="col-12 mt-2">
+                        <div class="alert alert-danger">
+                            Certifique-se que o arquivo que você anexou é de fato um excel e que ele não está
+                            corrompido.
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

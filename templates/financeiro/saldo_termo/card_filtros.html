@@ -1,0 +1,172 @@
+{% load widget_tweaks %}
+
+<div class="flex justify-between gap-8 md2:flex-col md2:gap-16 md2:justify-start">
+	<h1 class="title ">
+		<svg class="w-24 h-24 text-primary-pure">
+			<use xlink:href="#icon_saldo_termo"></use>
+		</svg>
+		{{title}}
+	</h1>
+
+	<div class="flex justify-end gap-16 md2:flex-col">
+		<button class="btn h-48 icon-left md2:w-full" type="button" data-xopen="modal_filtros" data-id="modal_filtros"
+			js-modal-filtrar>
+			<svg>
+				<use xlink:href="#icon_filtrar"></use>
+			</svg>
+			Filtrar
+		</button>
+
+		<button class="btn secondary h-48 hidden icon-left md2:w-full" js-limpar-filtro type="button">
+			<svg>
+				<use xlink:href="#icon_close"></use>
+			</svg>
+			Limpar Filtros
+		</button>
+	</div>
+</div>
+
+
+<div class="wrapper-filters flex flex-col gap-8 md2:flex-wrap px-24 py-8 h-auto"></div>
+
+
+<div class="modal_filtros" data-position="center">
+	<section data-id="modal_filtros" class="rounded justify-between flex flex-col  modal--content ">
+		<form class="form flex flex-col " action="{{request.current_path}}" method="get" id="form_filtro_equipamento"
+			name="filtro">
+			<header class="flex items-center justify-between px-24 pb-16 pt-24 bg-primary-pure rounded-t ">
+				<p class="text-lg text-white font-normal">Filtros</p>
+
+				<button data-xclose="modal_filtros" type="button"
+					class="rounded-full bg-primary-60 w-40 shrink-0 h-40 cursor-pointer transition-transform hover:scale-110 grid place-items-center">
+					<svg class="text-white w-16 h-16">
+						<use xlink:href="#icon_close"></use>
+					</svg>
+				</button>
+
+			</header>
+
+			<div class="flex flex-col overflow-x-hidden overflow-y-auto h-max-[37.5rem] md2:h-[25rem]">
+				<div
+					class="wrapper-selecao col-span-full flex gap-16 px-24 pb-16 pt-8 flex-wrap w-[45rem] md2:w-[20rem]">
+
+				</div>
+				<div class="p-24 pt-0 pb-0 rounded-sm grid grid-cols-2 gap-16 md2:grid-cols-1">
+					<div class="flex flex-col gap-4 col-span-full">
+						<label for="{{filtro_saldo_termo_form.empresa.id_for_label}}"
+							class="label">{{filtro_saldo_termo_form.empresa.label}}</label>
+						{{filtro_saldo_termo_form.empresa|add_class:"h-48"}}
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{filtro_saldo_termo_form.ano_termo.id_for_label}}"
+							class="label">{{filtro_saldo_termo_form.ano_termo.label}}</label>
+						{{filtro_saldo_termo_form.ano_termo|add_class:"h-48"}}
+					</div>
+
+					<div class="flex flex-col gap-4">
+						<label for="{{filtro_saldo_termo_form.situacao.id_for_label}}"
+							class="label">{{filtro_saldo_termo_form.situacao.label}}</label>
+						{{filtro_saldo_termo_form.situacao|add_class:"h-48"}}
+					</div>
+
+					{% comment %}
+						<div class="col-span-full flex flex-col gap-4">
+							<label class="label">Empresas com</label>
+							<div js-dropdown class="h-full ml-auto w-full !active">
+								<button type="button" class="drop-button w-full flex justify-between relative">
+									<p class="text-sm leading-100 ml-12 text-neutral-70 font-semibold">Selecionar Filtros
+									</p>
+
+									<svg class="w-24 h-24 absolute right-4 my-auto">
+										<use xlink:href="#icon_seta_down"></use>
+									</svg>
+
+									<div class="dropdown-area">
+										<div class="dropdown-container top-48 !z-0">
+											<div class="radio-container round size-16 flex items-center">
+												<label for="{{filtro_saldo_termo_form.saldo_negativo_total.id_for_label}}"
+													class="check-label text-sm py-4 w-full">
+													{{filtro_saldo_termo_form.saldo_negativo_total|add_class:"sr-only"}}
+													<span class="radio-circle">
+														<i class="radio-circle-inner"></i>
+													</span>
+													{{filtro_saldo_termo_form.saldo_negativo_total.label}}
+												</label>
+											</div>
+
+											<div class="radio-container round size-16 flex items-center">
+												<label for="{{filtro_saldo_termo_form.saldo_positivo_total.id_for_label}}"
+													class="check-label text-sm py-4 w-full">
+													{{filtro_saldo_termo_form.saldo_positivo_total|add_class:"sr-only"}}
+													<span class="radio-circle">
+														<i class="radio-circle-inner"></i>
+													</span>
+													{{filtro_saldo_termo_form.saldo_positivo_total.label}}
+												</label>
+											</div>
+
+											<div class="radio-container round size-16 flex items-center">
+												<label for="{{filtro_saldo_termo_form.saldo_negativo_ppt.id_for_label}}"
+													class="check-label text-sm py-4 w-full">
+													{{filtro_saldo_termo_form.saldo_negativo_ppt|add_class:"sr-only"}}
+													<span class="radio-circle">
+														<i class="radio-circle-inner"></i>
+													</span>
+													{{filtro_saldo_termo_form.saldo_negativo_ppt.label}}
+												</label>
+											</div>
+
+											<div class="radio-container round size-16 flex items-center">
+												<label
+													for="{{filtro_saldo_termo_form.saldo_negativo_capacitacao.id_for_label}}"
+													class="check-label text-sm py-4 w-full">
+													{{filtro_saldo_termo_form.saldo_negativo_capacitacao|add_class:"sr-only"}}
+													<span class="radio-circle">
+														<i class="radio-circle-inner"></i>
+													</span>
+													{{filtro_saldo_termo_form.saldo_negativo_capacitacao.label}}
+												</label>
+											</div>
+
+											<div class="radio-container round size-16 flex items-center">
+												<label
+													for="{{filtro_saldo_termo_form.saldo_negativo_divulgacao.id_for_label}}"
+													class="check-label text-sm py-4 w-full">
+													{{filtro_saldo_termo_form.saldo_negativo_divulgacao|add_class:"sr-only"}}
+													<span class="radio-circle">
+														<i class="radio-circle-inner"></i>
+													</span>
+													{{filtro_saldo_termo_form.saldo_negativo_divulgacao.label}}
+												</label>
+											</div>
+
+											<div class="radio-container round size-16 flex items-center">
+												<label
+													for="{{filtro_saldo_termo_form.saldo_negativo_equipamentos.id_for_label}}"
+													class="check-label text-sm py-4 w-full">
+													{{filtro_saldo_termo_form.saldo_negativo_equipamentos|add_class:"sr-only"}}
+													<span class="radio-circle">
+														<i class="radio-circle-inner"></i>
+													</span>
+													{{filtro_saldo_termo_form.saldo_negativo_equipamentos.label}}
+												</label>
+											</div>
+										</div>
+									</div>
+								</button>
+							</div>
+						</div>
+					{% endcomment %}
+				</div>
+			</div>
+
+			<div class="flex justify-between items-center gap-16 my-16 mt-auto px-24 pt-16">
+				<button data-xclose="modal_filtros" type="button"
+					class="btn secondary bg-transparent h-48">Cancelar</button>
+				<button data-xclose="modal_filtros" type="submit" class="btn  h-48  btn-submit ">Aplicar
+					filtros</button>
+			</div>
+		</form>
+	</section>
+</div>

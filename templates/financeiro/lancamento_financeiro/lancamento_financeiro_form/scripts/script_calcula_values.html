@@ -1,0 +1,27 @@
+<script>
+
+
+	function calculaValorEfetivo() {
+		const inputValueTotalString = document.querySelector("#id_valor_total").value
+		//	console.log(realToNumber(inputValueTotalString), 'esse valor')
+		let valorTotalNumeral = numeral(`$${inputValueTotalString}`);
+		// console.log(valorTotalNumeral, 'VALOR')
+		let impostosNumeral = numeral(document.querySelector("#id_impostos").value);
+		const valorTotal = valorTotalNumeral.value()
+		const impostos = impostosNumeral.value()
+
+		return valorTotal + impostos
+	}
+
+	function calculaValorPendente() {
+		const inputValueEfetivoString = document.querySelector("#id_valor_efetivo").value
+		const inputValuePagoString = document.querySelector("#id_valor_pago").value
+		let valueEfetivoNumeral = numeral(inputValueEfetivoString)
+		let valuePagoNumeral = numeral(inputValuePagoString)
+		const valorEfetivo = valueEfetivoNumeral.value()
+		const valorPago = valuePagoNumeral.value()
+		// console.log(valorEfetivo, valorPago, 'valores')
+
+		return valorEfetivo - valorPago
+	}
+</script>

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block extra_styles_vendor %}
+<!--  -->
+{% endblock %}
+
+{% block extra_styles %}
+{% endblock %}
+
+{% block content %}
+<main class="container-content">
+	{% include 'top_buttons.html' %}
+
+	<div class="card mt-32 flex flex-col gap-32 mb-32 md2:mt-0">
+		<h1 class="title text-neutral-100 px-24 pt-24 ">
+			<svg class="h-24 w-24 text-primary-pure">
+				<use xlink:href="#icon_detail_fornecedor"></use>
+			</svg> Detalhe do fornecedor
+		</h1>
+
+		<div class="tabs" js-tab>
+			<ul class="tabs-wrapper flex">
+				<li class="tab-item active" data-tab="tab-1">
+					Informações do fornecedor
+				</li>
+				<li class="tab-item" data-tab="tab-2">
+					Dados Bancários
+				</li>
+				<li class="tab-item " data-tab="tab-3">
+					Compras com o fornecedor
+				</li>
+			</ul>
+
+			<div class="tabs-content p-24">
+				{% include 'financeiro/fornecedor/fornecedor_detail/tab_informacoes_fornecedor.html' %}
+
+				{% include 'financeiro/fornecedor/fornecedor_detail/tab_dados_bancarios.html' %}
+
+				{% include 'financeiro/fornecedor/fornecedor_detail/tab_compras_fornecedor.html' %}
+			</div>
+		</div>
+	</div>
+</main>
+{% endblock %}
+
+{% block extra_js_vendor %}
+<script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+
+{% block extra_js %}
+
+{% endblock %}

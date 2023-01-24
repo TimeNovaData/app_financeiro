@@ -1,0 +1,24 @@
+<script>
+
+
+
+	function changeValorTotal() {
+		const inputValorTotal = document.querySelector("#id_valor_total")
+		const inputValorEfetivo = document.querySelector("#id_valor_efetivo")
+		const inputValorPendente = document.querySelector("#id_valor_pendente")
+		const impostos = document.querySelector("#id_impostos")
+
+		// console.log('entrou aq', inputValorTotal)
+		inputValorTotal.addEventListener('input', () => {
+			inputValorEfetivo.value = calculaValorEfetivo()
+			inputValorPendente.value = calculaValorPendente()
+		})
+
+
+
+		impostos.addEventListener('input', () => {
+			inputValorEfetivo.value = calculaValorEfetivo()
+			inputValorPendente.value = calculaValorPendente()
+		})
+	}
+</script>

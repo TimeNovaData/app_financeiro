@@ -1,0 +1,89 @@
+{% load humanize %}
+
+<div class="tab-collapse active" data-tab="tab-1">
+    <div class="tab-container">
+        <div class="flex items-center justify-between gap-32 mb-32 md2:flex-wrap md2:gap-8">
+            <h1 class="title">Informações de pagamento</h1>
+
+            <div class="flex gap-16">
+                <button  class="btn secondary red h-48  icon-right"  data-id="modal_delete" data-xopen="modal_delete">
+                    <svg >
+                        <use xlink:href="#icon_close"></use>
+                    </svg>
+                    Excluir lançamento
+                </button>
+                <a class="btn h-48"
+                    href="{% url 'lancamento_financeiro_update' object.id %}?tipo={{tipo}}">
+                    <svg class="w-20 h-20">
+                        <use xlink:href="#icon_pen"></use>
+                    </svg>
+                    Alterar dados
+                </a>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-16 md2:flex md2:flex-col md2:flex-wrap">
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Conta Gerencial</label>
+                {{ object.conta_gerencial|default:"-"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">
+                    {% if tipo == "Despesa" %}
+                        Tipo de documento de contas à pagar
+                    {% else %}
+                        Tipo de documento de contas à receber
+                    {% endif %}
+                </label>
+                {{object.tipo_documento|default:"-"}}
+            </div>
+
+            {% if tipo == "Despesa" %}
+                <div class="flex flex-col text-detail gap-1">
+                    <label for="" class="label-detail">Número da Nota Fiscal</label>
+                    {{object.numero_nota_fiscal|default:"-"}}
+                </div>
+            {% endif %}
+
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Conta/Caixa para Pagamento</label>
+                {{object.conta_caixa|default:"-"}}
+            </div>
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Destinação</label>
+                {{object.destinacao|default:"-"}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1 col-span-2">
+                <label for="" class="label-detail">Tipo de Pagamento</label>
+                {{object.forma_pagamento|default:"-"}}
+            </div>
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Data de Referência</label>
+                {{ object.data_referencia|date:'d/m/Y'|default:"-"}}
+            </div>
+            <div class="flex flex-col text-detail gap-1 col-span-2">
+                <label for="" class="label-detail">Data de Vencimento</label>
+                {{object.data_vencimento|default:"-"|date:'d/m/Y'}}
+            </div>
+
+            <div class="flex flex-col text-detail gap-1 ">
+                <label for="" class="label-detail">Valor Total</label>
+                R$ {{object.valor_total|default:"0,00"|intcomma}}
+            </div>
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Valor já pago</label>
+                R$ {{ object.valor_pago|default:"0,00"|intcomma}}
+            </div>
+            <div class="flex flex-col text-detail gap-1 ">
+                <label for="" class="label-detail">Valor pendente</label>
+                R$ {{object.valor_pendente|default:"0,00"|intcomma}}
+            </div>
+            <div class="flex flex-col text-detail gap-1">
+                <label for="" class="label-detail">Impostos</label>
+                R$ {{ object.impostos|default:"0,00"|intcomma}}
+            </div>
+        </div>
+    </div>
+</div>

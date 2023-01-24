@@ -1,0 +1,108 @@
+{% load widget_tweaks %}
+
+<div class="hidden">
+    <div class="empty_inline_form" data-js-inline="inline_parcela">
+        <div class="inline-item inline-__prefix__ border border-neutral-30 rounded-sm p-16 my-32 relative"
+            data-js-inline="inline_parcela">
+            {{parcela_inline_formset.empty_form.DELETE|add_class:'hidden'}}
+            {{parcela_inline_formset.id}}
+
+            <div class="">
+
+                <div class="grid grid-cols-4 mb-16 gap-16 md2:grid-cols-1">
+                    <label for="" class="label titulo-parcela col-span-full font-semibold">Parcela <span
+                            class="n-parcelas"></span></label>
+
+                    <div class="flex flex-col gap-4">
+                        <label for="" class="label">{{parcela_inline_formset.empty_form.data_referencia.label}}</label>
+                        {{parcela_inline_formset.empty_form.data_referencia|add_class:'h-48'|attr:'js-ativo'|attr:'js-data-referencia'}}
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <label for="" class="label">{{parcela_inline_formset.empty_form.data_vencimento.label}}</label>
+                        {{parcela_inline_formset.empty_form.data_vencimento|add_class:'h-48'|attr:'js-ativo'|attr:'js-data-vencimento'}}
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <label for="" class="label">{{parcela_inline_formset.empty_form.data_pagamento.label}}</label>
+                        {{parcela_inline_formset.empty_form.data_pagamento|add_class:'h-48'|attr:'js-ativo'|attr:'js-data-pagamento'}}
+                    </div>
+                    <div></div>
+
+                    <div class="flex flex-col gap-4">
+                        <label for="" class="label">{{parcela_inline_formset.empty_form.valor.label}}</label>
+
+                        <div class="input-icon icon-left">
+                            {{parcela_inline_formset.empty_form.valor|add_class:'h-48'|attr:'js-ativo'|attr:'js-valor'}}
+                            <svg>
+                                <use xlink:href="#icon_dolar"></use>
+                            </svg>
+                        </div>
+
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <label for="" class="label">{{parcela_inline_formset.empty_form.acrescimo.label}}</label>
+
+                        <div class="input-icon icon-left">
+                            {{parcela_inline_formset.empty_form.acrescimo|add_class:'h-48'|attr:'js-ativo'|attr:'js-acrescimo'}}
+                            <svg>
+                                <use xlink:href="#icon_dolar"></use>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <label for="" class="label">{{parcela_inline_formset.empty_form.desconto.label}}</label>
+                        <div class="input-icon icon-left">
+                            {{parcela_inline_formset.empty_form.desconto|add_class:'h-48'|attr:'js-ativo'|attr:'js-desconto'}}
+                            <svg>
+                                <use xlink:href="#icon_dolar"></use>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-4">
+                        <label for="" class="label disabled">Valor efetivo</label>
+
+                        <div class="input-icon icon-left">
+                            <input type="text" class="input-text h-48 disabled efetivo_parcela" js-ativo
+                                placeholder="dinamico" id="id_valor" js-valor-efetivo>
+                            <svg>
+                                <use xlink:href="#icon_dolar"></use>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-16">
+                    <div class="flex flex-col gap-4">
+                        <label for="{{parcela_inline_formset.empty_form.caixa_banco_real.id_for_label}}"
+                            class="label text-neutral-80">{{parcela_inline_formset.empty_form.caixa_banco_real.label}} *</label>
+                            <div class="select-container h-48">
+
+                                {{parcela_inline_formset.empty_form.caixa_banco_real|attr:'js-no-choices'}}
+                            </div>
+                    </div>
+
+                    <div class="flex flex-col gap-4">
+                        <label for="{{parcela_inline_formset.empty_form.conta_gerencial.id_for_label}}"
+                            class="label text-neutral-80">{{parcela_inline_formset.empty_form.conta_gerencial.label}} *</label>
+                        <div class="select-container h-48 ">
+                            {{parcela_inline_formset.empty_form.conta_gerencial|attr:'js-no-choices'}}
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col col-span-full">
+                        <label class="label observacoes">{{parcela_inline_formset.empty_form.observacoes.label}}</label>
+                        {{parcela_inline_formset.empty_form.observacoes|add_class:'h-48'|attr:'js-ativo'}}
+                    </div>
+                </div>
+
+                <button type="button"
+                    class="remove_inline-__prefix__  remove-button cursor-pointer w-32 h-32 bg-alert-red-10 rounded-full absolute top-8 right-8 grid place-items-center transition-transform hover:scale-110"
+                    data-js-inline="inline_parcela">
+                    <svg class="text-alert-red-100 w-16 h-16">
+                        <use xlink:href="#icon_close"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

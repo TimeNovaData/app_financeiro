@@ -1,0 +1,102 @@
+<script>
+    const form = document.querySelector("form")
+
+    const formaPagamento = document.querySelector('#id_forma_pagamento')
+    const choices = GLOBAL.getChoicesActive(formaPagamento.id, listOfChoices)
+    const empresa = document.querySelector('#id_empresa')
+    const choicesEmpresa = GLOBAL.getChoicesActive(empresa.id, listOfChoices)
+    const container = document.querySelector('[js-container-parcela]')
+    const input = document.querySelector('.qtd-inlines')
+
+    function removeInlines(){
+        const wrapper = document.querySelector('.wrapper-inline[data-js-inline="inline_parcela"]')
+        const inlinesVisiveis = wrapper.querySelectorAll(".inline-item[data-js-inline='inline_parcela']:not(.hidden)");
+
+        inlinesVisiveis.forEach(inline => {
+            const remove = inline.querySelector('.remove-button')
+            remove.click()
+        })
+    }
+    
+    function gerarOneParcela() {
+        removeInlines()
+        const button = document.querySelector('#gerar_parcelas')
+        input.value = 1
+        button.click()
+    }
+
+    function gerarMultiParcelas() {
+        input.value = ''
+        removeInlines()
+    }
+
+    function changeSelectParcela() {
+        const value = choices.getValue().value.toLowerCase()
+
+        if (value == 'à vista') {
+            gerarOneParcela()
+        } else if (value == 'parcelado') {
+            gerarMultiParcelas()
+        }
+
+    }
+
+    if (choices) {
+        // changeSelectParcela()
+        formaPagamento.addEventListener('change', () => {
+            changeSelectParcela()
+        })
+    }
+
+
+
+    function addEventInForm() {
+        form.addEventListener('submit', (event) => {
+            const wrapper = form.querySelector(".wrapper-inline[data-js-inline='inline_parcela']")
+            // console.log('passou')
+            validateParcelas(wrapper, event)
+
+        })
+    }
+    
+
+
+    function observerInputsParcela() {
+        const container = document.querySelector('[js-container-parcela]')
+        const inputQuantidade = document.querySelector('.qtd-inlines')
+        const inputPrimeiraParcela = document.querySelector('#primeira_parcela')
+        const inputIntervaloParcelas = document.querySelector('#intervalo_parcelas')
+        if (container) {
+            const button = document.querySelector('#gerar_parcelas')
+     
+            button.addEventListener('click', (e) => {
+                // console.log(inputPrimeiraParcela.value)
+                const valorTotalString = document.querySelector("#id_valor_efetivo").value.replace('.', '').replace(',', '.')
+                let valorTotalNumeral = numeral(`$${valorTotalString}`);
+                const valorTotal = valorTotalNumeral.value();
+                const inlinesVisiveis = document.querySelectorAll('.inline-item[data-js-inline="inline_parcela"]:not(.inline-__prefix__):not(.hidden)');
+                const quantidade = inlinesVisiveis.length 
+                const valorParcela = (valorTotal / quantidade)
+               
+                e.preventDefault()
+
+                const isVazio = inputQuantidade.value === '' || inputPrimeiraParcela.value === '' || inputIntervaloParcelas.value === ''
+
+                if (isVazio) {
+                    e.preventDefault()
+
+                    GLOBAL.showToastify('Preencha todos os campos referente a parcela')
+                    return
+                }
+                inlinesVisiveis.forEach((inline, index) => {
+                    const valor = inline.querySelector("[js-valor]")
+                    valor.value = valorParcela
+
+                })
+            })
+        }
+
+    }
+
+
+</script>

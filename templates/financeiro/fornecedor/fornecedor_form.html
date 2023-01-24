@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load widget_tweaks %}
+{% block extra_styles_vendor %}
+<!--  -->
+{% endblock %}
+
+{% block extra_styles %}
+{% endblock %}
+
+{% block content %}
+<main class="container-content">
+	{% include 'top_buttons.html' %}
+	<div class="card mt-32 p-24 flex flex-col gap-32 mb-32 md2:mt-0">
+		
+		
+		<h1 class="title">{{title}}</h1>
+		<form action="" enctype="multipart/form-data" method="post">
+			{% csrf_token %}
+			<div data-secao="informacoes_fornecedor" class="hidden">
+				<h1 class="title text-neutral-100 mb-32">
+					<svg class="h-24 w-24 text-primary-pure">
+						<use xlink:href="#icon_pen"></use>
+					</svg>Alterar informações do fornecedor
+				</h1>
+				<div class="grid grid-cols-2 md:flex md:flex-col md:flex-wrap gap-16">
+					<label class="label font-semibold col-span-full">Informações Gerais</label>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">CNPJ</label> 
+						{{form.cnpj|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Email*</label> 
+						{{form.email|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Razão Social*</label> 
+						{{form.razao_social|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Nome fantasia</label> 
+						{{form.nome_fantasia|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Inscrição Estadual</label> 
+						{{form.inscricao_estadual|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Inscrição Municipal</label> 
+						{{form.inscricao_municipal|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Contato*</label> 
+						{{form.contato|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Telefone</label> 
+						{{form.telefone|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="h-[.0625rem] col-span-full my-8 bg-neutral-20"></div>
+					<div class="grid grid-cols-3 md:flex md:flex-col md:flex-wrap gap-16 col-span-full">
+						<label class="label font-semibold col-span-full">Dados da Entrega</label>
+						<div class="flex flex-col gap-4">
+							<label for="" class="label">CEP*</label> 
+							{{endereco_form.cep|add_class:'h-48'|attr:'js-ativo'|attr:'js-cep-search'}}
+						</div>
+						<div class="flex flex-col gap-4">
+							<label for="" class="label disabled">Cidade*</label> 
+								{{endereco_form.cidade|attr:'js-cidade'|add_class:'h-48 disabled'|attr:'js-cep-search-item'}}
+						</div>
+						<div class="flex flex-col gap-4">
+							<label for="" class="label disabled">Estado*</label> 
+								<input id="estado" value={{endereco_form.estado.value}} name="estado" class="input-text  h-48 disabled" type="text" readonly  js-cep-search-item>	
+						</div>
+						<div class="flex flex-col gap-4">
+							<label for="" class="label">Rua*</label> 
+							{{endereco_form.rua|add_class:'h-48'|attr:'js-ativo'|attr:'js-cep-search-item'}}
+						</div>
+						<div class="flex flex-col gap-4">
+							<label for="" class="label">Bairro*</label> 
+							{{endereco_form.bairro|add_class:'h-48'|attr:'js-ativo'|attr:'js-cep-search-item'}}
+						</div>
+						<div class="flex flex-col gap-4">
+							<label for="" class="label">Número*</label> 
+							{{endereco_form.numero|add_class:'h-48'|attr:'js-ativo'|attr:'js-cep-search-item'}}
+						</div>
+						<div class="flex flex-col gap-4 col-span-full">
+							<label for="" class="label">Ponto de referência*</label> 
+							{{endereco_form.referencia|add_class:'h-48'|attr:'js-ativo'|attr:'js-cep-search-item'}}
+						</div>
+						<!-- <div class="h-[.0625rem] col-span-full mt-16 mb-24 bg-neutral-20"></div> -->
+					</div>
+				</div>
+				
+			</div>
+
+			<div data-secao="dados_bancarios" class="hidden">
+			
+				<div class="grid grid-cols-2 md:flex md:flex-col md:flex-wrap gap-16">
+					<label class="label font-semibold col-span-full">Dados Bancários</label>
+					<div class="flex flex-col gap-4 col-span-full">
+						<label for="" class="label">Banco</label> 
+						<div class="select-container h-48">
+						{{dado_bancario_form.banco|attr:'js-choioces'}}
+						</div>
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Agencia</label> 
+						{{dado_bancario_form.agencia|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+					<div class="flex flex-col gap-4">
+						<label for="" class="label">Conta</label> 
+						{{dado_bancario_form.conta|add_class:'h-48'|attr:'js-ativo'}}
+					</div>
+				</div>
+				
+
+				
+			</div>
+			<div class="flex items-center gap-16 mt-24 justify-end">
+				<a href="javascript: window.history.back();" class="btn secondary h-48">Cancelar</a>
+				<button class="btn h-48" type="submit">Salvar alterações</button>
+			</div>
+		</form>
+	</div>
+	{% endblock %}
+
+	{% block extra_js_vendor %}
+	<!-- -->
+	{% endblock %}
+
+	{% block extra_js %}
+
+	{% endblock %}

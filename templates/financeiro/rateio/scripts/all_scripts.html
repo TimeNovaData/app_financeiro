@@ -1,0 +1,216 @@
+<script>
+    const inputValue = document.querySelector('[id$=_valor_total]')
+    const inputValueTotal = document.querySelector('[id$=_valor_efetivo]')
+
+
+    //retorna os itens que se repetem
+    const toFindDuplicates = arr => arr.filter((item, index) => item !== "" && arr.indexOf(item) !== index)
+
+    //verifica se existem itens que se repetem
+    function isExistDuplicates(arr) {
+        let resultToReturn = false;
+        let duplicates = toFindDuplicates(arr)
+        if (duplicates.length) {
+            resultToReturn = true
+        }
+        return resultToReturn
+    }
+
+    function verificaSelectsDuplicates() {
+        const form = document.forms[0]
+        // console.log(form, 'form')
+        const wrapperItemRateio = document.querySelector(".wrapper-inline[data-js-inline='inline_item_rateio']")
+        const inlineItems = wrapperItemRateio.querySelectorAll('.inline-item:not(.hidden)')
+
+        let options = []
+        let isVazio = false
+        // console.log(inlineItems)
+        inlineItems.forEach(inline => {
+            const select = inline.querySelector('select:not([id$="-empresa"])')
+            const optSelected = select.querySelector('option').value
+            options.push(optSelected)
+            if (optSelected == '' && select.getAttribute('hidden') != null) {
+                isVazio = true
+            }
+
+        })
+
+
+        const duplicateElements = isExistDuplicates(options);
+
+        if (duplicateElements) {
+            GLOBAL.showToastify('Termos repetidos não são permitidos')
+        } else {
+            form.submit()
+        }
+
+    }
+
+    //calcula valor com base na porcentagem
+    function calculaValorItem(valueInputPorc) {
+        const valueTotal = Number(inputValueTotal.value.replace('.', '').replace(',', '.'))
+        const porc = Number(valueInputPorc)
+
+        if (!valueTotal) {
+            return ''
+        }
+        return ((porc * valueTotal) / 100).toFixed(2)
+    }
+    //calcula porcentagem com base no valor
+    function calculaPorcentagemItem(valueInputValue) {
+        const valueTotal = Number(inputValueTotal.value.replace('.', '').replace(',', '.'))
+        const valueItem = Number(valueInputValue)
+
+        if (!valueTotal) {
+            return ''
+        }
+        return ((valueItem * 100) / valueTotal).toFixed(2)
+    }
+
+    //calcuma soma das porcentagens dos itens
+    function somaPorcentagem() {
+        let soma = 0
+        const inlineItems = document.querySelectorAll('.inline-item[data-js-inline="inline_item_rateio"]:not(.hidden)')
+        inlineItems.forEach(inline => {
+            const inputItemPorc = inline.querySelector('[id$=-porcentagem]')
+            if (inputItemPorc) {
+                soma += Number(inputItemPorc.value)
+            }
+        })
+        return soma
+    }
+
+    function sumValueTotal() {
+        let soma = 0
+        const inlineItems = document.querySelectorAll('.inline-item[data-js-inline="inline_item_rateio"]:not(.hidden)')
+        inlineItems.forEach(inline => {
+            const inputItemValue = inline.querySelector('[id$=-valor]')
+            if (inputItemValue) {
+                soma += Number(inputItemValue.value)
+            }
+        })
+        return soma
+    }
+
+    //atualiza o valor do item
+    const updateValueItem = (inputItemPorc, inputItemValue) => {
+        // console.log(inputItemPorc, inputItemPorc.value, 'aqui')
+        if (inputItemPorc.value === '') {
+            inputItemValue.value = ''
+        } else {
+            inputItemValue.value = calculaValorItem(inputItemPorc.value)
+        }
+    }
+
+    const updateValuePorc = (inputItemPorc, inputItemValue) => {
+        if (inputItemValue.value === '') {
+            inputItemPorc.value = ''
+        } else {
+            inputItemPorc.value = calculaPorcentagemItem(inputItemValue.value)
+        }
+    }
+
+    function calculaValores() {
+        const valueTotal = Number(inputValueTotal.value.replace('.', '').replace(',', '.'))
+
+
+        if (!valueTotal) return
+        const inlineItems = document.querySelectorAll('.inline-item[data-js-inline="inline_item_rateio"]:not(.hidden)')
+
+        inlineItems.forEach(inline => {
+            const inputItemPorc = inline.querySelector('[id$=-porcentagem]')
+            const inputItemValue = inline.querySelector('[id$=-valor]')
+
+            updateValueItem(inputItemPorc, inputItemValue)
+            updateValuePorc(inputItemPorc, inputItemValue)
+
+
+            let interval
+            inputItemPorc.addEventListener('input', GLOBAL.debounceFunction(() => updateValueItem(inputItemPorc, inputItemValue), 300, interval))
+            inputItemValue.addEventListener('input', GLOBAL.debounceFunction(() => updateValuePorc(inputItemPorc, inputItemValue), 300, interval))
+
+        })
+    }
+
+    //quando o valor total muda todos os itens tem seus valores recalculados 
+    function changeValueTotal() {
+        let interval
+        inputValue.addEventListener('input', GLOBAL.debounceFunction(() => calculaValores(), 300, interval))
+
+    }
+
+    function submit() {
+        const form = document.forms[0]
+        const selects = document.querySelectorAll('select:not([id$="-empresa"]):not([id$="-termo_cooperacao"])')
+        // console.log(selects, 'list seletcs')
+        const btn = document.querySelector('.btn-submit')
+        const wrapper = form.querySelector(".wrapper-inline[data-js-inline='inline_parcela']")
+      
+        function setAttrRequired() {
+            selects.forEach(i => {
+
+                if (i.required && i.getAttribute('js-no-choices') === null) {
+                    i.setAttribute('data-required', true)
+                    i.removeAttribute('required')
+                }
+
+            })
+        }
+
+        function isInvalidSelect() {
+            let isVazio = false
+            selects.forEach(select => {
+                // console.log(select, 'select')
+                if (select.getAttribute('data-required') && select.value == '') {
+                    isVazio = true
+                }
+            })
+            return isVazio
+        }
+
+        btn.addEventListener('click', (e) => {
+            event.preventDefault()
+            const isHundredPercent = Math.round(somaPorcentagem()) === 100
+            let numeralTotal = numeral(`$${inputValueTotal.value.replace('.', '').replace(',', '.')}`)
+            const isValueTotal = Math.round(sumValueTotal()) === numeralTotal.value()
+            // console.log('passou')
+            
+            setAttrRequired()
+
+            if (isInvalidSelect()) {
+                GLOBAL.showToastify('Preencha todos os campos obrigatórios para seguir')
+            } else {
+                if (isHundredPercent) {
+                   if(validateParcelas(wrapper, e)){
+                    verificaSelectsDuplicates()
+                   }
+                } else {
+                   
+                        GLOBAL.showToastify('A soma das porcentagens deve ser igual a 100%')
+
+                }
+            }
+        })
+    }
+
+    (function init() {
+        //a cada item adcionado a função calcula valores é chamada p adicioar evento no inline
+        const addInline = document.querySelector('.add_inline')
+        if (addInline) {
+
+            addInline.addEventListener('click', () => {
+                // console.log('aq')
+                const valueTotal = Number(inputValueTotal.value.replace('.', '').replace(',', '.'))
+                if (!valueTotal) {
+                    GLOBAL.showToastify('Informe o valor total para seguir')
+                } else {
+                    calculaValores()
+                }
+
+            })
+        }
+        calculaValores()
+        changeValueTotal()
+        submit()
+    })()
+</script>
